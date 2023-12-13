@@ -138,5 +138,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRendererFruit: {fileID: 1847226826319009739}
   transformFruit: {fileID: 1847226826319009736}
-  rigidbody2D: {fileID: 1847226826319009738}
+  rb: {fileID: 1847226826319009738}
   collide: {fileID: 1847226826319009749}

@@ -9,22 +9,23 @@ namespace Game
     {
         [SerializeField] private SpriteRenderer spriteRendererFruit;
         [SerializeField] private Transform transformFruit;
-        [SerializeField] private Rigidbody2D rigidbody2D;
+        [SerializeField] private Rigidbody2D rb;
         [SerializeField] private CircleCollider2D collide;
+        private LevelFruit levelFruit;
         private float scaleFruit = 0.3f;
 
         public void Initialized(Sprite sprite, int sizeScale)
         {
-            rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+            levelFruit = (LevelFruit)sizeScale;
             spriteRendererFruit.sprite = sprite;
-            scaleFruit += sizeScale * 0.2f;
-            transformFruit.localScale = new Vector2(scaleFruit, scaleFruit);
-            Debug.Log($"level fruit = {sizeScale} - {(LevelFruit)sizeScale} - scale = {scaleFruit} - radius = {collide.radius}");
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            float scale = scaleFruit + sizeScale * 0.2f;
+            transformFruit.localScale = new Vector2(scale, scale);
         }
 
         public void OnClick()
         {
-            rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+            rb.bodyType = RigidbodyType2D.Dynamic;
         }    
 
         // Start is called before the first frame update
