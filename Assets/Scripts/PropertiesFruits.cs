@@ -39,5 +39,19 @@ namespace Game
         {
 
         }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            PropertiesFruits prop = collision.gameObject.GetComponent<PropertiesFruits>();
+            if (prop != null)
+            {
+                if(this.levelFruit == prop.levelFruit)
+                {
+                    Debug.Log($"Check level fruit: {this.gameObject.name} == {collide.gameObject.name}");
+                    SimplePool.Despawn(collision.gameObject);
+                    SimplePool.Despawn(this.gameObject);
+                }    
+            }    
+        }
     }
 }
