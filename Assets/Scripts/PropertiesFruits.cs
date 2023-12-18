@@ -13,36 +13,30 @@ namespace Game
         [SerializeField] private Transform transformFruit;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private CircleCollider2D collide;
-        private Action<PropertiesFruits, int> levelUp;
         private LevelFruit levelFruit;
         private float scaleFruit = 0.3f;
+        private Action<PropertiesFruits, PropertiesFruits, int> levelUp;
+        private Action endGame;
+        private bool isColide = false;
 
-        public void Initialized(Sprite sprite, int sizeScale, Action<PropertiesFruits, int> levelUp, bool isFall = false)
+        public bool IsColide { get => isColide; set => isColide = value; }
+
+        public void Initialized(Sprite sprite, int sizeScale, Action<PropertiesFruits, PropertiesFruits, int> levelUp, Action endGame, bool isFall = false)
         {
+            IsColide = false;
             levelFruit = (LevelFruit)sizeScale;
             spriteRendererFruit.sprite = sprite;
-            rb.bodyType = isFall? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
+            rb.bodyType = isFall ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
             float scale = scaleFruit + sizeScale * 0.2f;
             transformFruit.localScale = new Vector2(scale, scale);
             this.levelUp = levelUp;
+            this.endGame = endGame;
         }
 
         public void OnClick()
         {
-            if(rb.bodyType != RigidbodyType2D.Dynamic)
+            if (rb.bodyType != RigidbodyType2D.Dynamic)
                 rb.bodyType = RigidbodyType2D.Dynamic;
-        }    
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -50,13 +44,17 @@ namespace Game
             PropertiesFruits prop = collision.gameObject.GetComponent<PropertiesFruits>();
             if (prop != null)
             {
-                if(this.levelFruit == prop.levelFruit)
+                if (this.levelFruit == prop.levelFruit)
                 {
-                    Debug.Log($"Check level fruit: {this.gameObject.name} == {collide.gameObject.name}");
-                    SimplePool.Despawn(prop.gameObject);
-                    levelUp?.Invoke(this, (int)this.levelFruit);
+                    levelUp?.Invoke(this, prop, (int)this.levelFruit);
+                    IsColide = true;
+                    prop.IsColide = true;
+                }
+                if(collision.gameObject.name == "Line")
+                {
+                    endGame?.Invoke();
                 }    
-            }    
+            }
         }
     }
 }

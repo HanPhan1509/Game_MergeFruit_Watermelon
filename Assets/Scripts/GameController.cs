@@ -29,11 +29,11 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z))
             {
                 Time.timeScale = 0;
             }
-            if(Input.GetKey(KeyCode.X))
+            if (Input.GetKey(KeyCode.X))
             {
                 Time.timeScale = 1;
             }
@@ -52,9 +52,9 @@ namespace Game
         private IEnumerator SpawnFruit(LevelFruit currentFruit)
         {
             yield return new WaitForSeconds(model.TimeSpawn);
-            PropertiesFruits newFruit = RandomFruit();
+            PropertiesFruits newFruit = SimplePool.Spawn(prefabFruit, spawnObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
             newFruit.transform.SetParent(spawnObject);
-            newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit, UpFruit);
+            newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit, MergeFruit, Gameover);
             fruit = newFruit;
             NextFruit();
         }
@@ -66,17 +66,22 @@ namespace Game
             nextFruit = (LevelFruit)random;
         }
 
-        private PropertiesFruits RandomFruit()
+        private void MergeFruit(PropertiesFruits f1, PropertiesFruits f2, int level)
         {
-            return SimplePool.Spawn(prefabFruit, spawnObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
+            if(!f1.IsColide && !f2.IsColide)
+            {
+                Vector2 pos = (f1.transform.position + f2.transform.position) / 2;
+                PropertiesFruits levelUpFruit = SimplePool.Spawn(prefabFruit, pos, Quaternion.identity).GetComponent<PropertiesFruits>();
+                Debug.Log(levelUpFruit.gameObject.name);
+                levelUpFruit.Initialized(model.LstObjects[level + 1], level + 1, MergeFruit, Gameover, true);
+                SimplePool.Despawn(f1.gameObject);
+                SimplePool.Despawn(f2.gameObject);
+            }
         }
 
-        private void UpFruit(PropertiesFruits desObject, int level)
+        private void Gameover()
         {
-            //SimplePool.Despawn(desObject);
-            //PropertiesFruits levelUpFruit = SimplePool.Spawn(prefabFruit, poolObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
-
-            desObject.Initialized(model.LstObjects[(int)level + 1], (int)level + 1, UpFruit, true);
-        }    
+            Debug.Log("GameOver");
+        }
     }
 }
