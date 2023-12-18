@@ -54,10 +54,10 @@ namespace Game
             yield return new WaitForSeconds(model.TimeSpawn);
             PropertiesFruits newFruit = RandomFruit();
             newFruit.transform.SetParent(spawnObject);
-            newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit);
+            newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit, UpFruit);
             fruit = newFruit;
             NextFruit();
-        }    
+        }
 
         private void NextFruit()
         {
@@ -69,6 +69,14 @@ namespace Game
         private PropertiesFruits RandomFruit()
         {
             return SimplePool.Spawn(prefabFruit, spawnObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
+        }
+
+        private void UpFruit(PropertiesFruits desObject, int level)
+        {
+            //SimplePool.Despawn(desObject);
+            //PropertiesFruits levelUpFruit = SimplePool.Spawn(prefabFruit, poolObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
+
+            desObject.Initialized(model.LstObjects[(int)level + 1], (int)level + 1, UpFruit, true);
         }    
     }
 }
