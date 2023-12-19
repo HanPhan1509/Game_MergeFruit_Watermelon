@@ -35,4 +35,9 @@ namespace Game
     {
         Default,
     }
+
+    enum UIPopups
+    {
+        Gameover,
+    }
 }

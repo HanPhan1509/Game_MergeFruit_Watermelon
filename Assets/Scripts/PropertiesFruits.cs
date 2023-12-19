@@ -16,10 +16,11 @@ namespace Game
         private LevelFruit levelFruit;
         private float scaleFruit = 0.3f;
         private Action<PropertiesFruits, PropertiesFruits, int> levelUp;
-        private Action endGame;
         private bool isColide = false;
+        private bool isEnd = false;
 
         public bool IsColide { get => isColide; set => isColide = value; }
+        public bool IsEnd { get => isEnd; }
 
         public void Initialized(Sprite sprite, int sizeScale, Action<PropertiesFruits, PropertiesFruits, int> levelUp, Action endGame, bool isFall = false)
         {
@@ -30,7 +31,6 @@ namespace Game
             float scale = scaleFruit + sizeScale * 0.2f;
             transformFruit.localScale = new Vector2(scale, scale);
             this.levelUp = levelUp;
-            this.endGame = endGame;
         }
 
         public void OnClick()
@@ -50,11 +50,9 @@ namespace Game
                     IsColide = true;
                     prop.IsColide = true;
                 }
-                if(collision.gameObject.name == "Line")
-                {
-                    endGame?.Invoke();
-                }    
             }
+            if(collision.gameObject.name.Contains("Line"))
+                isEnd = false;
         }
     }
 }

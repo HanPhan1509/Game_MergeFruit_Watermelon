@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
@@ -11,13 +12,16 @@ namespace Game
         [SerializeField] private Transform spawnObject;
         [SerializeField] private Transform poolObject;
         [SerializeField] private GameObject prefabFruit;
+        [SerializeField] private GameOver lineGameOver;
 
+        private int totalScore = 0;
         private PropertiesFruits fruit;
         private LevelFruit nextFruit = LevelFruit.Zero;
 
         private void Awake()
         {
             //model.ThrowIfNull();
+            lineGameOver.Initialized(Gameover);
         }
 
         void Start()
@@ -29,15 +33,6 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKey(KeyCode.Z))
-            {
-                Time.timeScale = 0;
-            }
-            if (Input.GetKey(KeyCode.X))
-            {
-                Time.timeScale = 1;
-            }
-
             var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
             if (Input.GetMouseButtonUp(0))
@@ -57,6 +52,8 @@ namespace Game
             newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit, MergeFruit, Gameover);
             fruit = newFruit;
             NextFruit();
+            if (fruit.IsEnd)
+                Gameover();
         }
 
         private void NextFruit()
@@ -68,11 +65,13 @@ namespace Game
 
         private void MergeFruit(PropertiesFruits f1, PropertiesFruits f2, int level)
         {
-            if(!f1.IsColide && !f2.IsColide)
+            if (!f1.IsColide && !f2.IsColide)
             {
+                Debug.Log(((level + 1) * (level + 2)) / 2);
+                totalScore += ((level + 1) * (level + 2)) / 2;
+                view.GameUI.AddScore(totalScore);
                 Vector2 pos = (f1.transform.position + f2.transform.position) / 2;
                 PropertiesFruits levelUpFruit = SimplePool.Spawn(prefabFruit, pos, Quaternion.identity).GetComponent<PropertiesFruits>();
-                Debug.Log(levelUpFruit.gameObject.name);
                 levelUpFruit.Initialized(model.LstObjects[level + 1], level + 1, MergeFruit, Gameover, true);
                 SimplePool.Despawn(f1.gameObject);
                 SimplePool.Despawn(f2.gameObject);
@@ -82,6 +81,12 @@ namespace Game
         private void Gameover()
         {
             Debug.Log("GameOver");
+            //view.ShowGameOver(totalScore);
+        }
+
+        public void ButtonLoadScene(string nameScene)
+        {
+            SceneManager.LoadScene(nameScene);
         }
     }
 }

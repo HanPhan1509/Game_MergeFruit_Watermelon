@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+namespace Game
 {
-    [SerializeField] private Image imgNextFruit;
-    
-    public void ShowNextFruit(Sprite sprite)
+    public class GameUI : MonoBehaviour
     {
-        imgNextFruit.sprite = sprite;
-    }    
+        [SerializeField] private Image imgNextFruit;
+        [SerializeField] private TextMeshProUGUI txtScore;
+
+        public void AddScore(int score)
+        {
+            txtScore.text = score.ToString();
+        }
+
+        public void ShowNextFruit(Sprite sprite)
+        {
+            imgNextFruit.sprite = sprite;
+        }
+    }
 }
