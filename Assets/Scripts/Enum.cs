@@ -18,7 +18,7 @@ namespace Game
         Nine,
         Ten
     }
-    enum TypeObject
+    public enum TypeObject
     {
         Fruits,
         HalfFruits,
@@ -31,7 +31,7 @@ namespace Game
         Memes,
     }
 
-    enum TypeBackground
+    public enum TypeBackground
     {
         Default,
     }

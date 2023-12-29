@@ -14,6 +14,9 @@ namespace Game
         [SerializeField] private GameObject prefabFruit;
         [SerializeField] private GameOver lineGameOver;
 
+        [Header("UI")]
+        [SerializeField] private SpriteRenderer srBackground;
+
         private int totalScore = 0;
         private PropertiesFruits fruit;
         private LevelFruit nextFruit = LevelFruit.Zero;
@@ -26,9 +29,16 @@ namespace Game
 
         void Start()
         {
+            StartGame();
+        }
+
+        #region GAMEPLAY
+
+        private void StartGame()
+        {
             NextFruit();
             StartCoroutine(SpawnFruit((LevelFruit)Random.Range(0, model.LimitLevelSpawn)));
-        }
+        }    
 
         // Update is called once per frame
         void Update()
@@ -81,12 +91,30 @@ namespace Game
         private void Gameover()
         {
             Debug.Log("GameOver");
-            //view.ShowGameOver(totalScore);
+            view.ShowGameOver(totalScore);
         }
+
+        #endregion
+
+        #region UI
+
+        private void GetData()
+        {
+            //if (GameObject.FindGameObjectWithTag(Constants.ParamsTag) != null)
+            //{
+
+            //}    
+        }    
+
+        private void ChangeBackground(Sprite spriteBG)
+        {
+            srBackground.sprite = spriteBG;
+        }    
 
         public void ButtonLoadScene(string nameScene)
         {
             SceneManager.LoadScene(nameScene);
         }
+        #endregion
     }
 }
