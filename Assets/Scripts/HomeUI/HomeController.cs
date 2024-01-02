@@ -1,18 +1,49 @@
+using Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HomeController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private HomeModel model;
+    [SerializeField] private HomeView view;
 
-    // Update is called once per frame
-    void Update()
+    #region HOME
+    public void ButtonStart()
     {
-        
+
     }
+    
+    public void ButtonNewGame()
+    {
+
+    }   
+    
+    public void ButtonShop()
+    {
+        view.ShowScreen(UIPopups.Shop);
+    }   
+    
+    public void ButtonSettings()
+    {
+
+    }   
+    
+    public void ButtonGift()
+    {
+
+    }   
+    
+    public void ButtonLeaderboard()
+    {
+
+    }
+    #endregion
+
+    #region SHOP
+    public void ButtonX()
+    {
+        view.ShowScreen(UIPopups.Home);
+    }    
+    #endregion
 }

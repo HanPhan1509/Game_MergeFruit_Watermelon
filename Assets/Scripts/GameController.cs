@@ -91,7 +91,7 @@ namespace Game
         private void Gameover()
         {
             Debug.Log("GameOver");
-            view.ShowGameOver(totalScore);
+            view.ShowScreen(UIPopups.Gameover, totalScore);
         }
 
         #endregion

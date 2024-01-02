@@ -12,11 +12,22 @@ namespace Game
 
         public GameUI GameUI => gameUI;
         public UIGameOver UIGameOver => uiGameOver;
+        
 
-        public void ShowGameOver(int totalScore)
+        public void ShowScreen(UIPopups popups, int totalScore = 0)
         {
-            uiGameOver.gameObject.SetActive(true);
-            uiGameOver.ShowScore(totalScore);
-        }    
+            uiGameOver.gameObject.SetActive(false);
+            gameUI.gameObject.SetActive(false);
+            switch (popups)
+            {
+                case UIPopups.Game:
+                    gameUI.gameObject.SetActive(true);
+                    break;
+                case UIPopups.Gameover:
+                    uiGameOver.gameObject.SetActive(true);
+                    uiGameOver.ShowScore(totalScore);
+                    break;
+            }    
+        }   
     }
 }

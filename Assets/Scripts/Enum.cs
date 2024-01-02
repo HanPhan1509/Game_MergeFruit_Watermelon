@@ -36,8 +36,11 @@ namespace Game
         Default,
     }
 
-    enum UIPopups
+    public enum UIPopups
     {
+        Home,
+        Shop,
+        Game,
         Gameover,
     }
 }

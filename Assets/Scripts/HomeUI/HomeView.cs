@@ -1,18 +1,31 @@
+using Game;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HomeView : MonoBehaviour
+namespace Game
 {
-    // Start is called before the first frame update
-    void Start()
+    public class HomeView : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Shop uiShop;
+        [SerializeField] private Home uiHome;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Shop Shop => uiShop;
+        public Home Home => uiHome;
+
+        public void ShowScreen(UIPopups popups)
+        {
+            uiHome.gameObject.SetActive(false);
+            uiShop.gameObject.SetActive(false);
+            switch (popups)
+            {
+                case UIPopups.Home:
+                    uiHome.gameObject.SetActive(true);
+                    break;
+                case UIPopups.Shop:
+                    uiShop.gameObject.SetActive(true);
+                    break;
+            }
+        }
     }
 }
