@@ -27,5 +27,10 @@ namespace Game
                     break;
             }
         }
+
+        public void LoadShopScreen(List<ItemBackground> itemsBG)
+        {
+            Shop.OpenShop(itemsBG);
+        }    
     }
 }
