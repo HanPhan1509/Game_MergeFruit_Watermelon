@@ -7,9 +7,11 @@ namespace Game
     [System.Serializable]
     public class ItemObject
     {
+        public int id;
         public TypeObject typeObject;
         public Sprite itemObject;
         public Sprite preview;
+        public bool isLock = true;
         public List<Sprite> allObjects = new List<Sprite>();
     }
 
@@ -31,5 +33,6 @@ namespace Game
         [SerializeField] private List<ItemObject> itemsObject = new();
 
         public List<ItemBackground> ItemsBG { get => itemsBG; /*set => itemsBG = value;*/ }
+        public List<ItemObject> ItemsObj { get => itemsObject; /*set => itemsBG = value;*/ }
     }
 }

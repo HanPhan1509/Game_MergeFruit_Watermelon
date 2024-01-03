@@ -28,7 +28,7 @@ public class HomeController : MonoBehaviour
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.LoadShopScreen(model.ItemsBG);
+        view.LoadShopScreen(model.ItemsBG, model.ItemsObj);
     }   
     
     public void ButtonSettings()

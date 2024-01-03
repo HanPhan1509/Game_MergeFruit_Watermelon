@@ -13,21 +13,36 @@ namespace Game
         [SerializeField] private GameObject highlight;
         [SerializeField] private GameObject lockItem;
 
-        private bool isLock = false;
-        private ItemBackground item;
-        private Action<ItemBackground> OnClickedItem;
+        private TypeShop typeShop;
 
-        public void ChangeDetailItem(ItemBackground item, Action<ItemBackground> OnClickedItem)
+        private ItemBackground itemBG = null;
+        private Action<ItemBackground> OnClickedItemBG;
+        
+        private ItemObject itemObj = null;
+        private Action<ItemObject> OnClickedItemObj;
+
+        public void ChangeDetailItemBG(TypeShop typeShop, ItemBackground itemBG, Action<ItemBackground> OnClickedItem)
         {
-            this.item = item;
-            this.OnClickedItem = OnClickedItem;
-            previewItem.sprite = item.itemBackground;
-            lockItem.SetActive(item.isLock);
+            this.typeShop = typeShop;
+            this.itemBG = itemBG;
+            this.OnClickedItemBG = OnClickedItem;
+            previewItem.sprite = itemBG.itemBackground;
+            lockItem.SetActive(itemBG.isLock);
+        }
+
+        public void ChangeDetailItemObj(TypeShop typeShop, ItemObject itemObj, Action<ItemObject> OnClickedItem)
+        {
+            this.typeShop = typeShop;
+            this.itemObj = itemObj;
+            this.OnClickedItemObj = OnClickedItem;
+            previewItem.sprite = itemObj.itemObject;
+            lockItem.SetActive(itemObj.isLock);
         }
 
         public void OnClick()
         {
-            OnClickedItem?.Invoke(this.item);
-        }    
+            if(typeShop == TypeShop.Background) OnClickedItemBG?.Invoke(this.itemBG);
+            else OnClickedItemObj?.Invoke(this.itemObj);
+        }
     }
 }

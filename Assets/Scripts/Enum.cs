@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Game
 {
+    public enum TypeShop
+    {
+        Background,
+        Object,
+    }
     public enum LevelFruit
     {
         Zero,

@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11007c22f581ec0458392fd188b9d474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contentBG: {fileID: 1214865413}
+  content: {fileID: 1214865413}
   previewItem: {fileID: 482918242}
   prefItems: {fileID: 7838371291802462299, guid: d3aeb34fcfdd0f94987ac3fd01d2bee1, type: 3}
   OnButtonX:
@@ -2624,6 +2624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 893747235}
   - component: {fileID: 893747236}
+  - component: {fileID: 893747237}
   m_Layer: 5
   m_Name: Top
   m_TagString: Untagged
@@ -2679,6 +2680,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &893747237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893747234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &1002272437
 GameObject:
   m_ObjectHideFlags: 0
@@ -3158,11 +3172,23 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1130955047}
   toggleTransition: 1
   graphic: {fileID: 1344693697}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 893747237}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 22685763}
+        m_TargetAssemblyTypeName: Game.Shop, Assembly-CSharp
+        m_MethodName: SwitchToggle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &1325806870
 GameObject:
   m_ObjectHideFlags: 0
@@ -3349,7 +3375,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1344693695}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3922,9 +3948,11 @@ MonoBehaviour:
     ground: {fileID: 21300000, guid: 94e3d8f7befb2e14987b817361144d4c, type: 3}
     isLock: 0
   itemsObject:
-  - typeObject: 0
+  - id: 0
+    typeObject: 0
     itemObject: {fileID: 21300000, guid: 793827d613321f24ab3ace14e3927cda, type: 3}
     preview: {fileID: 21300000, guid: bb8664124babc3747a613a59b75f787a, type: 3}
+    isLock: 1
     allObjects:
     - {fileID: 21300000, guid: 934782e376757b7428b8c41df29f4d8e, type: 3}
     - {fileID: 21300000, guid: b818ddd4301eb1d47b4e1e90e4d3bc27, type: 3}
@@ -3938,9 +3966,11 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 2d5bb498907985540bcf55a724e83915, type: 3}
     - {fileID: 21300000, guid: 6dd940fe1ecc88e4888f24a812b46049, type: 3}
     - {fileID: 21300000, guid: 5b52824c6f1fd4d478723b01ae4d08ed, type: 3}
-  - typeObject: 1
+  - id: 0
+    typeObject: 1
     itemObject: {fileID: 21300000, guid: fe9c93a3a50e5a94c8f9e45fdb411cbd, type: 3}
     preview: {fileID: 21300000, guid: 09052540c8d48b845ba302e732d0f380, type: 3}
+    isLock: 1
     allObjects:
     - {fileID: 21300000, guid: 0158437776acd824cb87e7b4822909d9, type: 3}
     - {fileID: 21300000, guid: 84537babf6f401e4e98d045a3de3cd54, type: 3}
@@ -3954,9 +3984,11 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 89a45479ed5417b49810c2407a31adf0, type: 3}
     - {fileID: 21300000, guid: d817607457ee8bf4dacb105c72657036, type: 3}
     - {fileID: 21300000, guid: d6c992f535d7b6d49aaf24aae84abc15, type: 3}
-  - typeObject: 2
+  - id: 0
+    typeObject: 2
     itemObject: {fileID: 21300000, guid: 4a51b116174d8f44fb73497c4d6d484a, type: 3}
     preview: {fileID: 21300000, guid: 73aa2d718bc35c44ea17e98e6545cf9a, type: 3}
+    isLock: 1
     allObjects:
     - {fileID: 21300000, guid: 7eb84cfa2d42f544caa1203d59e5e31e, type: 3}
     - {fileID: 21300000, guid: d827c17c7fa637744997e3cca1a7c1f0, type: 3}
@@ -3969,33 +4001,35 @@ MonoBehaviour:
     - {fileID: 21300000, guid: cd4dcb41ec3ceaa4590acf8f8a0ebcbe, type: 3}
     - {fileID: 21300000, guid: cbec0018788397144a0dffec0f83ce29, type: 3}
     - {fileID: 21300000, guid: 5c20b8be43f683248b3cba7ef761f3e7, type: 3}
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
+  - id: 0
+    typeObject: 3
+    itemObject: {fileID: 21300000, guid: 139db5d8db2a1f942bd71fe5c14ff481, type: 3}
+    preview: {fileID: 21300000, guid: 57b6a77748edc6d46be746b2db501143, type: 3}
+    isLock: 1
     allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
+  - id: 0
+    typeObject: 4
+    itemObject: {fileID: 21300000, guid: 063599c558d3eba41b07f218823d2517, type: 3}
+    preview: {fileID: 21300000, guid: aaa361464243a0043b758fb2282768f8, type: 3}
+    isLock: 1
     allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
+  - id: 0
+    typeObject: 5
+    itemObject: {fileID: 21300000, guid: d3a19f23b0b91f5439e8bc149eef6720, type: 3}
+    preview: {fileID: 21300000, guid: 0f8d6021dfbc2204ea88932379584212, type: 3}
+    isLock: 1
     allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
+  - id: 0
+    typeObject: 6
+    itemObject: {fileID: 21300000, guid: 6397b74c0b971d44e94ee69f7df374ee, type: 3}
+    preview: {fileID: 21300000, guid: 0a24723d69cf07246864effacc0ece70, type: 3}
+    isLock: 1
     allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
-    allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
-    allObjects: []
-  - typeObject: 0
-    itemObject: {fileID: 0}
-    preview: {fileID: 0}
+  - id: 0
+    typeObject: 7
+    itemObject: {fileID: 21300000, guid: a7e9deeb998a70b46a371837c41e1716, type: 3}
+    preview: {fileID: 21300000, guid: 639c1eb1d7aac2545992197486b58136, type: 3}
+    isLock: 1
     allObjects: []
 --- !u!1 &1691009073
 GameObject:
@@ -4464,10 +4498,22 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2103022465}
   toggleTransition: 1
   graphic: {fileID: 2138302574}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 893747237}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 22685763}
+        m_TargetAssemblyTypeName: Game.Shop, Assembly-CSharp
+        m_MethodName: SwitchToggle
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1828185982
 GameObject:
