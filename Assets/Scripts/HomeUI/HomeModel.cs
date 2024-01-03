@@ -16,12 +16,14 @@ namespace Game
     [System.Serializable]
     public class ItemBackground
     {
+        public int id;
         public TypeBackground typeBG;
         public Sprite itemBackground;
         public Sprite preview;
         public Sprite background;
         public Sprite detailBG;
         public Sprite ground;
+        public bool isLock = true;
     }
     public class HomeModel : MonoBehaviour
     {

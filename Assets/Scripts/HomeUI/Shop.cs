@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Game
 {
     public class Shop : MonoBehaviour
     {
         [SerializeField] private Transform contentBG;
+        [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
 
         [SerializeField] private UnityEvent OnButtonX;
@@ -28,8 +30,13 @@ namespace Game
             {
                 GameObject item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity);
                 item.transform.SetParent(contentBG);
-                item.GetComponent<DetailItem>().ChangeDetailItem(itemsBG[i]);
+                item.GetComponent<DetailItem>().ChangeDetailItem(itemsBG[i], OnClickItemBG);
             }
+        }
+
+        private void OnClickItemBG(ItemBackground item)
+        {
+            previewItem.sprite = item.preview;
         }    
     }
 }
