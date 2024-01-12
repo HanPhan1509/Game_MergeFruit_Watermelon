@@ -55,8 +55,6 @@ public class HomeController : MonoBehaviour
     }    
     private void OnClickedItemObject(ItemObject item)
     {
-        Debug.Log(item.typeObject);
-        Debug.Log(item.allObjects.Count);
         this.itemObj = item;
     }    
 

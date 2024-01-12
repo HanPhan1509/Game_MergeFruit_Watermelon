@@ -1312,6 +1312,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imgNextFruit: {fileID: 1299946228}
   txtScore: {fileID: 1225629019}
+  OnButtonReturnHome:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 195038481}
+        m_TargetAssemblyTypeName: Game.GameController, Assembly-CSharp
+        m_MethodName: ButtonLoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Home
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &664963924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,7 +1743,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1186685110}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 613354442}
+        m_TargetAssemblyTypeName: Game.GameUI, Assembly-CSharp
+        m_MethodName: ButtonReturn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1186685110
 MonoBehaviour:
   m_ObjectHideFlags: 0
