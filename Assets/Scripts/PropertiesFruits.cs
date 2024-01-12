@@ -18,19 +18,42 @@ namespace Game
         private Action<PropertiesFruits, PropertiesFruits, int> levelUp;
         private bool isColide = false;
         private bool isEnd = false;
+        private float oriSize = 2.04f;
 
         public bool IsColide { get => isColide; set => isColide = value; }
         public bool IsEnd { get => isEnd; }
 
         public void Initialized(Sprite sprite, int sizeScale, Action<PropertiesFruits, PropertiesFruits, int> levelUp, Action endGame, bool isFall = false)
         {
+            this.levelUp = levelUp;
             IsColide = false;
             levelFruit = (LevelFruit)sizeScale;
             spriteRendererFruit.sprite = sprite;
             rb.bodyType = isFall ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
-            float scale = scaleFruit + sizeScale * 0.2f;
+            ResizeFruit(sprite, sizeScale);
+        }
+
+        private void ResizeFruit(Sprite sprite, int sizeScale)
+        {
+            // Get size sprite
+            float originalSize = sprite.bounds.size.x;
+            float x = 1;
+            Debug.Log("before : " + x);
+            if (originalSize > oriSize)
+            {
+                x /= 2;
+                Debug.Log("1 : " + x);
+            }
+            else if (originalSize < oriSize)
+            {
+                x *= 2;
+                Debug.Log("2 : " + x);
+            }
+            Debug.Log("after : " + x);
+            float scale = (scaleFruit + sizeScale * 0.2f) * x;
+            collide.radius = 1.04f * (originalSize > oriSize? 2 : 1);
+            Debug.Log($"check size {originalSize} > {oriSize} => scale = {scale} , radius collide = {collide.radius}");
             transformFruit.localScale = new Vector2(scale, scale);
-            this.levelUp = levelUp;
         }
 
         public void OnClick()
@@ -51,7 +74,7 @@ namespace Game
                     prop.IsColide = true;
                 }
             }
-            if(collision.gameObject.name.Contains("Line"))
+            if (collision.gameObject.name.Contains("Line"))
                 isEnd = false;
         }
     }

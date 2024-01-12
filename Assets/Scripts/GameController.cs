@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Progress;
 
 namespace Game
 {
@@ -20,12 +21,14 @@ namespace Game
         private int totalScore = 0;
         private PropertiesFruits fruit;
         private LevelFruit nextFruit = LevelFruit.Zero;
+        private ItemBackground itemBG;
 
         private void Awake()
         {
             //model.ThrowIfNull();
             lineGameOver.Initialized(Gameover);
             GetData();
+            ChangeGameBackground();
         }
 
         void Start()
@@ -78,7 +81,6 @@ namespace Game
         {
             if (!f1.IsColide && !f2.IsColide)
             {
-                Debug.Log(((level + 1) * (level + 2)) / 2);
                 totalScore += ((level + 1) * (level + 2)) / 2;
                 view.GameUI.AddScore(totalScore);
                 Vector2 pos = (f1.transform.position + f2.transform.position) / 2;
@@ -104,12 +106,16 @@ namespace Game
             DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
             if (myObj != null)
             {
-                ItemBackground item = myObj.ibackground;
-                srBackground[0].sprite = item.background;
-                srBackground[1].sprite = item.detailBG;
-                srBackground[2].sprite = item.ground;
+                this.itemBG = myObj.ibackground;
             }    
-        }   
+        }
+
+        private void ChangeGameBackground()
+        {
+            srBackground[0].sprite = this.itemBG.background;
+            srBackground[1].sprite = this.itemBG.detailBG;
+            srBackground[2].sprite = this.itemBG.ground;
+        }    
 
         public void ButtonLoadScene(string nameScene)
         {
