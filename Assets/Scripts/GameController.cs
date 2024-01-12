@@ -25,6 +25,7 @@ namespace Game
         {
             //model.ThrowIfNull();
             lineGameOver.Initialized(Gameover);
+            GetData();
         }
 
         void Start()
@@ -100,11 +101,10 @@ namespace Game
 
         private void GetData()
         {
-            //if (GameObject.FindGameObjectWithTag(Constants.ParamsTag) != null)
-            //{
-
-            //}    
-        }    
+            DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
+            if (myObj != null)
+                srBackground.sprite = myObj.background.background;
+        }
 
         private void ChangeBackground(Sprite spriteBG)
         {

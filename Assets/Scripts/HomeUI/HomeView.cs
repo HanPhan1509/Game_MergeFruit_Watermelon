@@ -1,4 +1,5 @@
 using Game;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,9 +29,9 @@ namespace Game
             }
         }
 
-        public void LoadShopScreen(List<ItemBackground> itemsBG, List<ItemObject> itemsObj)
+        public void LoadShopScreen(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG)
         {
-            Shop.OpenShop(itemsBG, itemsObj);
+            Shop.OpenShop(itemsBG, itemsObj, OnClickedItemBG);
         }    
     }
 }
