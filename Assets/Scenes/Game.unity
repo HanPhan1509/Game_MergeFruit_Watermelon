@@ -2354,6 +2354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lstObjects:
+  - {fileID: 21300000, guid: f83635a754d166745a470390c79fec5f, type: 3}
   - {fileID: 21300000, guid: f9662b31ebbff8a45ac510776e78f77f, type: 3}
   - {fileID: 21300000, guid: dcdc3149fdc877148add929d6838cb6a, type: 3}
   - {fileID: 21300000, guid: 7785d2a3ef01a6b49bb3c1b209996655, type: 3}
@@ -2363,7 +2364,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2710e7dd6974c4e4d80b0f7552499326, type: 3}
   - {fileID: 21300000, guid: e48bdf8a3c89d6a4d9d4ce36f0524601, type: 3}
   - {fileID: 21300000, guid: 5e8a126b105f10e45a2afc57096c5039, type: 3}
-  - {fileID: 21300000, guid: f83635a754d166745a470390c79fec5f, type: 3}
   - {fileID: 21300000, guid: e4c73b447fd5d9843807eded2f961e11, type: 3}
   limitLevelSpawn: 5
   timeSpawn: 1

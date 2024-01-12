@@ -29,9 +29,9 @@ namespace Game
             }
         }
 
-        public void LoadShopScreen(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG)
+        public void LoadShopScreen(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG, Action<ItemObject> OnClickedItemObj)
         {
-            Shop.OpenShop(itemsBG, itemsObj, OnClickedItemBG);
+            Shop.OpenShop(itemsBG, itemsObj, OnClickedItemBG, OnClickedItemObj);
         }    
     }
 }

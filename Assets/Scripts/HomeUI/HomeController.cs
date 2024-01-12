@@ -10,43 +10,54 @@ public class HomeController : MonoBehaviour
     [SerializeField] private HomeModel model;
     [SerializeField] private HomeView view;
     private ItemBackground itemBG;
+    private ItemObject itemObj;
 
     private void Start()
     {
         itemBG = model.ItemsBG[0];
+        itemObj = model.ItemsObj[0];
         view.ShowScreen(UIPopups.Home);
     }
 
-    private void PassData(ItemBackground itemBG)
+    private void PassData(ItemBackground itemBG, ItemObject itemObj)
     {
         //GameObject newObject = new GameObject();
         //newObject.transform.SetParent(view.transform, false);
         DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
         myObj.ibackground = itemBG;
+        myObj.lstObj = itemObj.allObjects;
+        Debug.Log($"Pass data = {myObj.lstObj.Count} {myObj.lstObj}");
+        Debug.Log($"Pass data = {itemObj.allObjects.Count} - {itemObj.typeObject}");
     }    
 
     #region HOME
     public void ButtonStart()
     {
-        PassData(itemBG);
+        PassData(itemBG, itemObj);
         SceneManager.LoadScene("Game");
     }
     
     public void ButtonNewGame()
     {
-        PassData(itemBG);
+        PassData(itemBG, itemObj);
         SceneManager.LoadScene("Game");
     }   
     
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.LoadShopScreen(model.ItemsBG, model.ItemsObj, OnClickedItemBG);
+        view.LoadShopScreen(model.ItemsBG, model.ItemsObj, OnClickedItemBG, OnClickedItemObject);
     }
     
     private void OnClickedItemBG(ItemBackground item)
     {
         this.itemBG = item;
+    }    
+    private void OnClickedItemObject(ItemObject item)
+    {
+        Debug.Log(item.typeObject);
+        Debug.Log(item.allObjects.Count);
+        this.itemObj = item;
     }    
 
 

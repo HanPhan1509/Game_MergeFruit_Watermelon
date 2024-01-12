@@ -103,10 +103,13 @@ namespace Game
 
         private void GetData()
         {
-            DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
-            if (myObj != null)
+            DataManager myData = GameObject.Find("Data").GetComponent<DataManager>();
+            if (myData != null)
             {
-                this.itemBG = myObj.ibackground;
+                this.itemBG = myData.ibackground;
+                Debug.Log(model.LstObjects.Count);
+                Debug.Log(myData.lstObj.Count);
+                model.LstObjects = myData.lstObj;
             }    
         }
 

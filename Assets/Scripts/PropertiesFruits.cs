@@ -37,21 +37,20 @@ namespace Game
         {
             // Get size sprite
             float originalSize = sprite.bounds.size.x;
-            float x = 1;
-            Debug.Log("before : " + x);
+            float ratioScale = 1;
+            float ratioRadius = 1;
             if (originalSize > oriSize)
             {
-                x /= 2;
-                Debug.Log("1 : " + x);
-            }
+                ratioScale /= 2;
+                ratioRadius *= 2;
+            } 
             else if (originalSize < oriSize)
             {
-                x *= 2;
-                Debug.Log("2 : " + x);
+                ratioScale *= 2;
+                ratioRadius /= 2;
             }
-            Debug.Log("after : " + x);
-            float scale = (scaleFruit + sizeScale * 0.2f) * x;
-            collide.radius = 1.04f * (originalSize > oriSize? 2 : 1);
+            float scale = (scaleFruit + sizeScale * 0.2f) * ratioScale;
+            collide.radius = 1.04f * ratioRadius;
             Debug.Log($"check size {originalSize} > {oriSize} => scale = {scale} , radius collide = {collide.radius}");
             transformFruit.localScale = new Vector2(scale, scale);
         }

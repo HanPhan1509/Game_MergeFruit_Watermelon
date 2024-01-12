@@ -18,17 +18,19 @@ namespace Game
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
         private Action<ItemBackground> OnClickedItemBG;
+        private Action<ItemObject> OnClickedItemObj;
 
         public void ButtonX() { OnButtonX?.Invoke(); }
         public void ButtonGet() { OnButtonGet?.Invoke(); }
 
 
 
-        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG)
+        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG, Action<ItemObject> OnClickedItemObj)
         {
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
             this.OnClickedItemBG = OnClickedItemBG;
+            this.OnClickedItemObj = OnClickedItemObj;
             SwitchToggle(0);
         }
 
@@ -76,6 +78,7 @@ namespace Game
             {
                 GameObject item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity);
                 item.transform.SetParent(content);
+                itemsObj[i].id = i;
                 item.GetComponent<DetailItem>().ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }
         }    
@@ -88,6 +91,7 @@ namespace Game
         private void OnClickItemObj(ItemObject item)
         {
             previewItem.sprite = item.preview;
+            OnClickedItemObj?.Invoke(item);
         }
     }
 }
