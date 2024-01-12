@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,12 +8,18 @@ namespace Game
 {
     public class Home : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI txtHighScore;
         [SerializeField] private UnityEvent OnButtonShop;
         [SerializeField] private UnityEvent OnButtonSettings;
         [SerializeField] private UnityEvent OnButtonLeaderboard;
         [SerializeField] private UnityEvent OnButtonGift;
         [SerializeField] private UnityEvent OnButtonStart;
         [SerializeField] private UnityEvent OnButtonNewGame;
+
+        public void ShowHighScore(int score)
+        {
+            txtHighScore.text = score.ToString();
+        }    
 
         public void ButtonStart() { OnButtonStart?.Invoke(); }
         public void ButtonNewGame() { OnButtonNewGame?.Invoke(); }

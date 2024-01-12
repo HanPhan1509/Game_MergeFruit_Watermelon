@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using static UnityEditor.Progress;
 
 namespace Game
@@ -93,7 +94,8 @@ namespace Game
 
         private void Gameover()
         {
-            Debug.Log("GameOver");
+            if (PlayerPrefs.GetInt("highscore", 0) < totalScore)
+                PlayerPrefs.SetInt("highscore", totalScore);
             view.ShowScreen(UIPopups.Gameover, totalScore);
         }
 

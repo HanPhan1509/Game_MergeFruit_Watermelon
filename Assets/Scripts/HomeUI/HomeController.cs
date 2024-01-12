@@ -16,6 +16,7 @@ public class HomeController : MonoBehaviour
     {
         itemBG = model.ItemsBG[0];
         itemObj = model.ItemsObj[0];
+        view.Home.ShowHighScore(PlayerPrefs.GetInt("highscore", 0));
         view.ShowScreen(UIPopups.Home);
     }
 

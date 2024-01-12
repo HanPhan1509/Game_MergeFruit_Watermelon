@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 namespace Game
 {
@@ -13,17 +14,14 @@ namespace Game
         [SerializeField] private GameObject prefItems;
 
         [SerializeField] private UnityEvent OnButtonX;
-        [SerializeField] private UnityEvent OnButtonGet;
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
         private Action<ItemBackground> OnClickedItemBG;
         private Action<ItemObject> OnClickedItemObj;
+        private TypeShop typePage;
 
         public void ButtonX() { OnButtonX?.Invoke(); }
-        public void ButtonGet() { OnButtonGet?.Invoke(); }
-
-
 
         public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG, Action<ItemObject> OnClickedItemObj)
         {
@@ -36,9 +34,9 @@ namespace Game
 
         public void SwitchToggle(int typeShop)
         {
-            TypeShop type = (TypeShop)typeShop;
+            typePage = (TypeShop)typeShop;
             ClearItems();
-            switch (type)
+            switch (typePage)
             {
                 case TypeShop.Background:
                     LoadItemsBG();
@@ -46,24 +44,24 @@ namespace Game
                 case TypeShop.Object:
                     LoadItemsObject();
                     break;
-            }    
+            }
         }
 
         private void ClearItems()
         {
-            if(content.childCount > 0)
+            if (content.childCount > 0)
             {
                 for (int i = 0; i < content.childCount; i++)
                 {
                     Transform child = content.GetChild(i);
                     SimplePool.Despawn(child.gameObject);
                 }
-            }    
-        }    
+            }
+        }
 
         private void LoadItemsBG()
         {
-            for(int i = 0; i < itemsBG.Count; i++)
+            for (int i = 0; i < itemsBG.Count; i++)
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
                 item.transform.SetParent(content);
@@ -81,7 +79,7 @@ namespace Game
                 itemsObj[i].id = i;
                 item.GetComponent<DetailItem>().ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }
-        }    
+        }
 
         private void OnClickItemBG(ItemBackground item)
         {
