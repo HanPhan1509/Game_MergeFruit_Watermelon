@@ -15,7 +15,7 @@ namespace Game
         [SerializeField] private GameOver lineGameOver;
 
         [Header("UI")]
-        [SerializeField] private SpriteRenderer srBackground;
+        [SerializeField] private SpriteRenderer[] srBackground = new SpriteRenderer[3];
 
         private int totalScore = 0;
         private PropertiesFruits fruit;
@@ -103,13 +103,13 @@ namespace Game
         {
             DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
             if (myObj != null)
-                srBackground.sprite = myObj.background.background;
-        }
-
-        private void ChangeBackground(Sprite spriteBG)
-        {
-            srBackground.sprite = spriteBG;
-        }    
+            {
+                ItemBackground item = myObj.ibackground;
+                srBackground[0].sprite = item.background;
+                srBackground[1].sprite = item.detailBG;
+                srBackground[2].sprite = item.ground;
+            }    
+        }   
 
         public void ButtonLoadScene(string nameScene)
         {

@@ -460,7 +460,10 @@ MonoBehaviour:
   poolObject: {fileID: 1131622621}
   prefabFruit: {fileID: 1847226826319009737, guid: 015d9bfe01eebd94fa9526be64d53ee2, type: 3}
   lineGameOver: {fileID: 548094877}
-  srBackground: {fileID: 1828185983}
+  srBackground:
+  - {fileID: 1828185983}
+  - {fileID: 116047741}
+  - {fileID: 384980878}
 --- !u!1 &234275256
 GameObject:
   m_ObjectHideFlags: 0

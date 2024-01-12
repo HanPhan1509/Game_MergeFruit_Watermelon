@@ -22,7 +22,7 @@ public class HomeController : MonoBehaviour
         //GameObject newObject = new GameObject();
         //newObject.transform.SetParent(view.transform, false);
         DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
-        myObj.background = itemBG;
+        myObj.ibackground = itemBG;
     }    
 
     #region HOME

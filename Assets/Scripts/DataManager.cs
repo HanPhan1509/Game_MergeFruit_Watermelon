@@ -7,7 +7,7 @@ namespace Game
     public class DataManager : MonoBehaviour
     {
         public List<Sprite> lstObj;
-        public ItemBackground background;
+        public ItemBackground ibackground;
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
