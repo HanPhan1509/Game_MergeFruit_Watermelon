@@ -20,44 +20,27 @@ public class HomeController : MonoBehaviour
         view.ShowScreen(UIPopups.Home);
     }
 
-    private void PassData(ItemBackground itemBG, ItemObject itemObj)
+    private void PassData()
     {
         //GameObject newObject = new GameObject();
         //newObject.transform.SetParent(view.transform, false);
         DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
-        myObj.ibackground = itemBG;
-        myObj.lstObj = itemObj.allObjects;
-        Debug.Log($"Pass data = {myObj.lstObj.Count} {myObj.lstObj}");
-        Debug.Log($"Pass data = {itemObj.allObjects.Count} - {itemObj.typeObject}");
+        myObj.ibackground = model.ItemsBG[PlayerPrefs.GetInt("background", 0)];
+        myObj.lstObj = model.ItemsObj[PlayerPrefs.GetInt("object", 0)].allObjects;
     }    
 
     #region HOME
-    public void ButtonStart()
-    {
-        PassData(itemBG, itemObj);
-        SceneManager.LoadScene("Game");
-    }
-    
     public void ButtonNewGame()
     {
-        PassData(itemBG, itemObj);
+        PassData();
         SceneManager.LoadScene("Game");
     }   
     
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.LoadShopScreen(model.ItemsBG, model.ItemsObj, OnClickedItemBG, OnClickedItemObject);
-    }
-    
-    private void OnClickedItemBG(ItemBackground item)
-    {
-        this.itemBG = item;
-    }    
-    private void OnClickedItemObject(ItemObject item)
-    {
-        this.itemObj = item;
-    }    
+        view.LoadShopScreen(model.ItemsBG, model.ItemsObj);
+    }   
 
 
     public void ButtonSettings()

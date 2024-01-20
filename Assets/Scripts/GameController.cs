@@ -43,7 +43,7 @@ namespace Game
         {
             NextFruit();
             StartCoroutine(SpawnFruit((LevelFruit)Random.Range(0, model.LimitLevelSpawn)));
-        }    
+        }
 
         // Update is called once per frame
         void Update()

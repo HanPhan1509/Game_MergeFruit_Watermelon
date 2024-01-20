@@ -51,7 +51,6 @@ namespace Game
             }
             float scale = (scaleFruit + sizeScale * 0.2f) * ratioScale;
             collide.radius = 1.04f * ratioRadius;
-            Debug.Log($"check size {originalSize} > {oriSize} => scale = {scale} , radius collide = {collide.radius}");
             transformFruit.localScale = new Vector2(scale, scale);
         }
 

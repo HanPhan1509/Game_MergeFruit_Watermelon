@@ -12,23 +12,32 @@ namespace Game
         [SerializeField] private Transform content;
         [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
+        [SerializeField] private GameObject btnGet;
 
         [SerializeField] private UnityEvent OnButtonX;
+        [SerializeField] private UnityEvent OnButtonGet;
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
-        private Action<ItemBackground> OnClickedItemBG;
-        private Action<ItemObject> OnClickedItemObj;
         private TypeShop typePage;
+        private ItemBackground itemBG;
+        private ItemObject itemObj;
 
         public void ButtonX() { OnButtonX?.Invoke(); }
 
-        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedItemBG, Action<ItemObject> OnClickedItemObj)
+        public void ButtonGet()
+        {
+            if(typePage == TypeShop.Background)
+                PlayerPrefs.SetInt("background", itemBG.id);
+            if (typePage == TypeShop.Object)
+                PlayerPrefs.SetInt("object", itemObj.id);
+            btnGet.SetActive(false);
+        }
+
+        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj)
         {
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
-            this.OnClickedItemBG = OnClickedItemBG;
-            this.OnClickedItemObj = OnClickedItemObj;
             SwitchToggle(0);
         }
 
@@ -84,12 +93,15 @@ namespace Game
         private void OnClickItemBG(ItemBackground item)
         {
             previewItem.sprite = item.preview;
-            OnClickedItemBG?.Invoke(item);
+            this.itemBG = item;
+            btnGet.SetActive(PlayerPrefs.GetInt("background", 0) != item.id);
+                
         }
         private void OnClickItemObj(ItemObject item)
         {
             previewItem.sprite = item.preview;
-            OnClickedItemObj?.Invoke(item);
+            this.itemObj = item;
+            btnGet.SetActive(PlayerPrefs.GetInt("object", 0) != item.id);
         }
     }
 }
