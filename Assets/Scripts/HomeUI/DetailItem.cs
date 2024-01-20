@@ -43,6 +43,12 @@ namespace Game
         {
             if(typeShop == TypeShop.Background) OnClickedItemBG?.Invoke(this.itemBG);
             else OnClickedItemObj?.Invoke(this.itemObj);
+            ChoosingItem(true);
         }
+
+        public void ChoosingItem(bool choosing)
+        {
+            highlight.SetActive(choosing);
+        }    
     }
 }

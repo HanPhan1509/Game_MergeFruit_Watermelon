@@ -19,6 +19,7 @@ namespace Game
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
+        private List<DetailItem> items = new();
         private TypeShop typePage;
         private ItemBackground itemBG;
         private ItemObject itemObj;
@@ -70,9 +71,11 @@ namespace Game
 
         private void LoadItemsBG()
         {
+            items.Clear();
             for (int i = 0; i < itemsBG.Count; i++)
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
+                items.Add(item);
                 item.transform.SetParent(content);
                 itemsBG[i].id = i;
                 item.ChangeDetailItemBG(TypeShop.Background, itemsBG[i], OnClickItemBG);
@@ -81,17 +84,20 @@ namespace Game
 
         private void LoadItemsObject()
         {
+            items.Clear();
             for (int i = 0; i < itemsObj.Count; i++)
             {
-                GameObject item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity);
+                DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
+                items.Add(item);
                 item.transform.SetParent(content);
                 itemsObj[i].id = i;
-                item.GetComponent<DetailItem>().ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
+                item.ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }
         }
 
         private void OnClickItemBG(ItemBackground item)
         {
+            ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemBG = item;
             btnGet.SetActive(PlayerPrefs.GetInt("background", 0) != item.id);
@@ -99,9 +105,18 @@ namespace Game
         }
         private void OnClickItemObj(ItemObject item)
         {
+            ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemObj = item;
             btnGet.SetActive(PlayerPrefs.GetInt("object", 0) != item.id);
         }
+
+        private void ClearHighlight()
+        {
+            foreach(DetailItem i in items)
+            {
+                i.ChoosingItem(false);
+            }    
+        }    
     }
 }
