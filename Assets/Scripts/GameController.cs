@@ -23,6 +23,7 @@ namespace Game
         private PropertiesFruits fruit;
         private LevelFruit nextFruit = LevelFruit.Zero;
         private ItemBackground itemBG;
+        private bool isGameOver = false;
 
         private void Awake()
         {
@@ -48,14 +49,17 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
-            var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
-            if (Input.GetMouseButtonUp(0))
+            if (!isGameOver)
             {
-                fruit.transform.SetParent(poolObject);
-                fruit.OnClick();
-                StartCoroutine(SpawnFruit(nextFruit));
-                //Invoke(nameof(SpawnFruit), model.TimeSpawn);
+                var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
+                if (Input.GetMouseButtonUp(0))
+                {
+                    fruit.transform.SetParent(poolObject);
+                    fruit.OnClick();
+                    StartCoroutine(SpawnFruit(nextFruit));
+                    //Invoke(nameof(SpawnFruit), model.TimeSpawn);
+                }
             }
         }
 
@@ -94,6 +98,7 @@ namespace Game
 
         private void Gameover()
         {
+            isGameOver = true;
             if (PlayerPrefs.GetInt("highscore", 0) < totalScore)
                 PlayerPrefs.SetInt("highscore", totalScore);
             view.ShowScreen(UIPopups.Gameover, totalScore);
@@ -109,10 +114,9 @@ namespace Game
             if (myData != null)
             {
                 this.itemBG = myData.ibackground;
-                Debug.Log(model.LstObjects.Count);
-                Debug.Log(myData.lstObj.Count);
                 model.LstObjects = myData.lstObj;
-            }    
+                isGameOver = false;
+            }
         }
 
         private void ChangeGameBackground()
@@ -120,7 +124,7 @@ namespace Game
             srBackground[0].sprite = this.itemBG.background;
             srBackground[1].sprite = this.itemBG.detailBG;
             srBackground[2].sprite = this.itemBG.ground;
-        }    
+        }
 
         public void ButtonLoadScene(string nameScene)
         {
