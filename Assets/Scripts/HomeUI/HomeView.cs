@@ -1,7 +1,9 @@
+using DG.Tweening;
 using Game;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Game
@@ -10,6 +12,9 @@ namespace Game
     {
         [SerializeField] private Shop uiShop;
         [SerializeField] private Home uiHome;
+
+        [SerializeField] private TextMeshProUGUI txtCoin;
+        [SerializeField] private RectTransform tranformBoxCoin;
 
         public Shop Shop => uiShop;
         public Home Home => uiHome;
@@ -29,9 +34,19 @@ namespace Game
             }
         }
 
-        public void LoadShopScreen(List<ItemBackground> itemsBG, List<ItemObject> itemsObj)
+        public void AddCoin(int addCoin)
         {
-            Shop.OpenShop(itemsBG, itemsObj);
+            int coin = Int32.Parse(txtCoin.text);
+            DOTween.To(() => coin, x => coin = x, coin + addCoin, 1f)
+            .OnUpdate(() => {
+                txtCoin.text = coin.ToString();
+            })
+            .SetEase(Ease.Linear);
+            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin", 0) + addCoin);
+        }
+        public void ShowCoin(int coin)
+        {
+            txtCoin.text = coin.ToString();
         }
     }
 }
