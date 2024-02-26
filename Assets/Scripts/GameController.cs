@@ -99,6 +99,7 @@ namespace Game
         private void Gameover()
         {
             isGameOver = true;
+            PlayerPrefs.SetInt("addcoin", totalScore);
             if (PlayerPrefs.GetInt("highscore", 0) < totalScore)
                 PlayerPrefs.SetInt("highscore", totalScore);
             view.ShowScreen(UIPopups.Gameover, totalScore);

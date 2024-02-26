@@ -17,6 +17,12 @@ public class HomeController : MonoBehaviour
         itemBG = model.ItemsBG[0];
         itemObj = model.ItemsObj[0];
         view.Home.ShowHighScore(PlayerPrefs.GetInt("highscore", 0));
+        view.Home.ShowCoin((PlayerPrefs.GetInt("coin", 0)));
+        if(PlayerPrefs.GetInt("addcoin", 0) != 0)
+        {
+            view.Home.AddCoin(PlayerPrefs.GetInt("addcoin", 0));
+            PlayerPrefs.SetInt("addcoin", 0);
+        }
         view.ShowScreen(UIPopups.Home);
     }
 

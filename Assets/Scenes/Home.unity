@@ -3584,6 +3584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txtHighScore: {fileID: 841840371}
+  txtCoin: {fileID: 1311218434}
+  tranformBoxCoin: {fileID: 1074279840}
   OnButtonShop:
     m_PersistentCalls:
       m_Calls:
