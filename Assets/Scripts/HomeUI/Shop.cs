@@ -125,7 +125,19 @@ namespace Game
             ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemObj = item;
-            btnGet.SetActive(PlayerPrefs.GetInt("object", 0) != item.id);
+            if (item.isLock)
+            {
+                frameButton.sprite = buttons[1];
+                txtButton.text = item.price.ToString();
+            }
+            else
+            {
+                frameButton.sprite = buttons[0];
+                if (PlayerPrefs.GetInt("background", 0) != item.id)
+                    txtButton.text = "Get";
+                else
+                    txtButton.text = "Equiped";
+            }
         }
 
         private void ClearHighlight()
