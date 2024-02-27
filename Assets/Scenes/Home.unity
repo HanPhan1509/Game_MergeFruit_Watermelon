@@ -180,6 +180,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4a616dd6f3361aa41bdfdb0daa453408, type: 3}
   frameButton: {fileID: 184541521}
   txtButton: {fileID: 1775572643}
+  btnEquiped: {fileID: 184541520}
   content: {fileID: 1214865413}
   previewItem: {fileID: 482918242}
   prefItems: {fileID: 7838371291802462299, guid: d3aeb34fcfdd0f94987ac3fd01d2bee1, type: 3}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,12 +14,14 @@ namespace Game
         [SerializeField] private Sprite[] buttons = new Sprite[2];
         [SerializeField] private Image frameButton;
         [SerializeField] private TextMeshProUGUI txtButton;
+        [SerializeField] private Button btnEquiped;
         [SerializeField] private Transform content;
         [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
 
         [SerializeField] private UnityEvent OnButtonX;
         [SerializeField] private UnityEvent<TypeShop, ItemBackground, ItemObject> OnButtonGet;
+        private Action<ItemBackground> OnClickedBGitems;
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
@@ -34,10 +37,21 @@ namespace Game
             OnButtonGet?.Invoke(typePage, itemBG, itemObj);
         }
 
-        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj)
+        public void ChangeStateButton(bool isLock, string textButton)
+        {
+            if (isLock)
+                frameButton.sprite = buttons[1];
+            else
+                frameButton.sprite = buttons[0];
+            btnEquiped.interactable = !(textButton == "Equiped");
+            txtButton.text = textButton;
+        }
+
+        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedBGitems)
         {
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
+            this.OnClickedBGitems = OnClickedBGitems;
             SwitchToggle(0);
         }
 
@@ -106,20 +120,7 @@ namespace Game
             ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemBG = item;
-
-            if (item.isLock)
-            {
-                frameButton.sprite = buttons[1];
-                txtButton.text = item.price.ToString();
-            }
-            else
-            {
-                frameButton.sprite = buttons[0];
-                if (PlayerPrefs.GetInt("background", 0) != item.id)
-                    txtButton.text = "Get";
-                else
-                    txtButton.text = "Equiped";
-            }
+            OnClickedBGitems?.Invoke(item);
         }
         private void OnClickItemObj(ItemObject item)
         {
