@@ -48,7 +48,7 @@ namespace Game
 
         public void ChoosingItem(bool choosing)
         {
-            highlight.SetActive(choosing);
+            highlight.SetActive(choosing); 
         }    
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,10 +10,13 @@ namespace Game
 {
     public class Shop : MonoBehaviour
     {
+        [SerializeField] private Sprite[] buttons = new Sprite[2];
+        [SerializeField] private Image frameButton;
+        [SerializeField] private TextMeshProUGUI txtButton;
+        [SerializeField] private GameObject btnGet;
         [SerializeField] private Transform content;
         [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
-        [SerializeField] private GameObject btnGet;
 
         [SerializeField] private UnityEvent OnButtonX;
         [SerializeField] private UnityEvent OnButtonGet;
@@ -28,7 +32,7 @@ namespace Game
 
         public void ButtonGet()
         {
-            if(typePage == TypeShop.Background)
+            if (typePage == TypeShop.Background)
                 PlayerPrefs.SetInt("background", itemBG.id);
             if (typePage == TypeShop.Object)
                 PlayerPrefs.SetInt("object", itemObj.id);
@@ -68,7 +72,7 @@ namespace Game
                 }
             }
         }
-
+        #region LOAD ITEMS
         private void LoadItemsBG()
         {
             items.Clear();
@@ -94,14 +98,27 @@ namespace Game
                 item.ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }
         }
+        #endregion
 
         private void OnClickItemBG(ItemBackground item)
         {
             ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemBG = item;
-            btnGet.SetActive(PlayerPrefs.GetInt("background", 0) != item.id);
-                
+
+            if (item.isLock)
+            {
+                frameButton.sprite = buttons[1];
+                txtButton.text = item.price.ToString();
+            }
+            else
+            {
+                frameButton.sprite = buttons[0];
+                if (PlayerPrefs.GetInt("background", 0) != item.id)
+                    txtButton.text = "Get";
+                else
+                    txtButton.text = "Equiped";
+            }
         }
         private void OnClickItemObj(ItemObject item)
         {
@@ -113,10 +130,10 @@ namespace Game
 
         private void ClearHighlight()
         {
-            foreach(DetailItem i in items)
+            foreach (DetailItem i in items)
             {
                 i.ChoosingItem(false);
-            }    
-        }    
+            }
+        }
     }
 }

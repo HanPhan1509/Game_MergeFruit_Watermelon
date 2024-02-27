@@ -12,6 +12,7 @@ namespace Game
         public Sprite itemObject;
         public Sprite preview;
         public bool isLock = true;
+        public int price;
         public List<Sprite> allObjects = new List<Sprite>();
     }
 
@@ -26,6 +27,7 @@ namespace Game
         public Sprite detailBG;
         public Sprite ground;
         public bool isLock = true;
+        public int price;
     }
     public class HomeModel : MonoBehaviour
     {
