@@ -1,6 +1,7 @@
 using Game;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEditor.Progress;
@@ -9,19 +10,33 @@ public class HomeController : MonoBehaviour
 {
     [SerializeField] private HomeModel model;
     [SerializeField] private HomeView view;
+    [SerializeField] private SaveManager saveManager;
+    private int currentCoin = 0;
     private ItemBackground itemBG;
     private ItemObject itemObj;
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            currentCoin += 500;
+            saveManager.SetCoin(currentCoin);
+        }
+    }
 
     private void Start()
     {
         itemBG = model.ItemsBG[0];
         itemObj = model.ItemsObj[0];
-        view.Home.ShowHighScore(PlayerPrefs.GetInt("highscore", 0));
-        view.ShowCoin((PlayerPrefs.GetInt("coin", 0)));
-        if(PlayerPrefs.GetInt("addcoin", 0) != 0)
+        view.Home.ShowHighScore(saveManager.GetHighScore());
+        currentCoin = saveManager.GetCoin();
+        view.ShowCoin(currentCoin);
+        if(saveManager.GetAddCoin() != 0)
         {
-            view.AddCoin(PlayerPrefs.GetInt("addcoin", 0));
-            PlayerPrefs.SetInt("addcoin", 0);
+            int addCoin = saveManager.GetAddCoin();
+            view.ChangeCoin(addCoin);
+            saveManager.SetCoin(currentCoin + addCoin);
+            saveManager.SetAddCoin(0);
         }
         view.ShowScreen(UIPopups.Home);
     }
@@ -30,9 +45,9 @@ public class HomeController : MonoBehaviour
     {
         //GameObject newObject = new GameObject();
         //newObject.transform.SetParent(view.transform, false);
-        DataManager myObj = GameObject.Find("Data").GetComponent<DataManager>();
-        myObj.ibackground = model.ItemsBG[PlayerPrefs.GetInt("background", 0)];
-        myObj.lstObj = model.ItemsObj[PlayerPrefs.GetInt("object", 0)].allObjects;
+        DataManager myObj = GameObject.Find("Manager").GetComponent<DataManager>();
+        myObj.ibackground = model.ItemsBG[saveManager.GetBackground()];
+        myObj.lstObj = model.ItemsObj[saveManager.GetObject()].allObjects;
     }    
 
     #region HOME
@@ -69,6 +84,30 @@ public class HomeController : MonoBehaviour
     public void ButtonX()
     {
         view.ShowScreen(UIPopups.Home);
+    }
+
+    public void ButtonGet(TypeShop typePage, ItemBackground itemBG, ItemObject itemObj)
+    {
+        if (typePage == TypeShop.Background)
+        {
+            if (itemBG.isLock)
+            {;
+                if (itemBG.price < currentCoin)
+                {
+                    view.ChangeCoin(-itemBG.price);
+                    currentCoin -= itemBG.price;
+                    saveManager.SetCoin(currentCoin);
+                }
+            }
+            if (itemBG.id != PlayerPrefs.GetInt("background", 0))
+            {
+                PlayerPrefs.SetInt("background", itemBG.id);
+            }
+        }
+        
+
+        if (typePage == TypeShop.Object)
+            PlayerPrefs.SetInt("object", itemObj.id);
     }    
     #endregion
 }

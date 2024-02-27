@@ -13,13 +13,12 @@ namespace Game
         [SerializeField] private Sprite[] buttons = new Sprite[2];
         [SerializeField] private Image frameButton;
         [SerializeField] private TextMeshProUGUI txtButton;
-        [SerializeField] private GameObject btnGet;
         [SerializeField] private Transform content;
         [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
 
         [SerializeField] private UnityEvent OnButtonX;
-        [SerializeField] private UnityEvent OnButtonGet;
+        [SerializeField] private UnityEvent<TypeShop, ItemBackground, ItemObject> OnButtonGet;
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
@@ -32,11 +31,7 @@ namespace Game
 
         public void ButtonGet()
         {
-            if (typePage == TypeShop.Background)
-                PlayerPrefs.SetInt("background", itemBG.id);
-            if (typePage == TypeShop.Object)
-                PlayerPrefs.SetInt("object", itemObj.id);
-            btnGet.SetActive(false);
+            OnButtonGet?.Invoke(typePage, itemBG, itemObj);
         }
 
         public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj)
@@ -53,9 +48,11 @@ namespace Game
             switch (typePage)
             {
                 case TypeShop.Background:
+                    itemObj = null;
                     LoadItemsBG();
                     break;
                 case TypeShop.Object:
+                    itemBG = null;
                     LoadItemsObject();
                     break;
             }
@@ -82,6 +79,8 @@ namespace Game
                 items.Add(item);
                 item.transform.SetParent(content);
                 itemsBG[i].id = i;
+                if (PlayerPrefs.GetInt("background", 0) == i)
+                    item.OnClick();
                 item.ChangeDetailItemBG(TypeShop.Background, itemsBG[i], OnClickItemBG);
             }
         }
@@ -95,6 +94,8 @@ namespace Game
                 items.Add(item);
                 item.transform.SetParent(content);
                 itemsObj[i].id = i;
+                if (PlayerPrefs.GetInt("object", 0) == i)
+                    item.OnClick();
                 item.ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }
         }

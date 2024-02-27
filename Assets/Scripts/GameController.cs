@@ -111,7 +111,7 @@ namespace Game
 
         private void GetData()
         {
-            DataManager myData = GameObject.Find("Data").GetComponent<DataManager>();
+            DataManager myData = GameObject.Find("Manager").GetComponent<DataManager>();
             if (myData != null)
             {
                 this.itemBG = myData.ibackground;

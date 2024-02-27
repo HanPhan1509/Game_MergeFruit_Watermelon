@@ -34,15 +34,15 @@ namespace Game
             }
         }
 
-        public void AddCoin(int addCoin)
+        public void ChangeCoin(int changeCoin)
         {
             int coin = Int32.Parse(txtCoin.text);
-            DOTween.To(() => coin, x => coin = x, coin + addCoin, 1f)
-            .OnUpdate(() => {
-                txtCoin.text = coin.ToString();
-            })
-            .SetEase(Ease.Linear);
-            PlayerPrefs.SetInt("coin", PlayerPrefs.GetInt("coin", 0) + addCoin);
+            DOTween.To(() => coin, x => coin = x, coin + changeCoin, 1f)
+                .OnUpdate(() =>
+                {
+                    txtCoin.text = coin.ToString();
+                }).SetEase(Ease.Linear);
+
         }
         public void ShowCoin(int coin)
         {
