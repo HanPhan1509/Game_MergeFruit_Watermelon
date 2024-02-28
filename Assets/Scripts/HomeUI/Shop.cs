@@ -11,11 +11,15 @@ namespace Game
 {
     public class Shop : MonoBehaviour
     {
+        [Header("BUTTON")]
         [SerializeField] private Sprite[] buttons = new Sprite[2];
         [SerializeField] private Image frameButton;
         [SerializeField] private TextMeshProUGUI txtButton;
         [SerializeField] private Button btnEquiped;
-        [SerializeField] private Transform content;
+
+        [Header("PAGE")]
+        [SerializeField] private ScrollRect scrollRect;
+        [SerializeField] private RectTransform[] content = new RectTransform[2];
         [SerializeField] private Image previewItem;
         [SerializeField] private GameObject prefItems;
 
@@ -52,37 +56,42 @@ namespace Game
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
             this.OnClickedBGitems = OnClickedBGitems;
+            LoadItemsBG();
+            LoadItemsObject();
             SwitchToggle(0);
         }
 
         public void SwitchToggle(int typeShop)
         {
             typePage = (TypeShop)typeShop;
-            ClearItems();
             switch (typePage)
             {
                 case TypeShop.Background:
                     itemObj = null;
-                    LoadItemsBG();
+                    scrollRect.content = content[0];
+                    content[0].gameObject.SetActive(true);
+                    content[1].gameObject.SetActive(false);
                     break;
                 case TypeShop.Object:
                     itemBG = null;
-                    LoadItemsObject();
+                    scrollRect.content = content[1];
+                    content[0].gameObject.SetActive(false);
+                    content[1].gameObject.SetActive(true);
                     break;
             }
         }
 
-        private void ClearItems()
-        {
-            if (content.childCount > 0)
-            {
-                for (int i = 0; i < content.childCount; i++)
-                {
-                    Transform child = content.GetChild(i);
-                    SimplePool.Despawn(child.gameObject);
-                }
-            }
-        }
+        //private void ClearItems()
+        //{
+        //    if (content.childCount > 0)
+        //    {
+        //        for (int i = 0; i < content.childCount; i++)
+        //        {
+        //            Transform child = content.GetChild(i);
+        //            SimplePool.Despawn(child.gameObject);
+        //        }
+        //    }
+        //}
         #region LOAD ITEMS
         private void LoadItemsBG()
         {
@@ -91,7 +100,7 @@ namespace Game
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
                 items.Add(item);
-                item.transform.SetParent(content);
+                item.transform.SetParent(content[0]);
                 itemsBG[i].id = i;
                 if (PlayerPrefs.GetInt("background", 0) == i)
                     item.OnClick();
@@ -106,7 +115,7 @@ namespace Game
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
                 items.Add(item);
-                item.transform.SetParent(content);
+                item.transform.SetParent(content[1]);
                 itemsObj[i].id = i;
                 if (PlayerPrefs.GetInt("object", 0) == i)
                     item.OnClick();
