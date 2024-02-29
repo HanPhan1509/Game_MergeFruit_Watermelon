@@ -34,7 +34,7 @@ namespace Game
         [SerializeField] private List<ItemBackground> itemsBG = new();
         [SerializeField] private List<ItemObject> itemsObject = new();
 
-        public List<ItemBackground> ItemsBG { get => itemsBG; /*set => itemsBG = value;*/ }
-        public List<ItemObject> ItemsObj { get => itemsObject; /*set => itemsBG = value;*/ }
+        public List<ItemBackground> ItemsBG { get => itemsBG; set => itemsBG = value; }
+        public List<ItemObject> ItemsObj { get => itemsObject; set => itemsObject = value; }
     }
 }

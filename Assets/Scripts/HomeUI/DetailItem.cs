@@ -49,6 +49,11 @@ namespace Game
         public void ChoosingItem(bool choosing)
         {
             highlight.SetActive(choosing);
+        }
+
+        public void UnlockItem()
+        {
+            lockItem.SetActive(false);
         }    
     }
 }

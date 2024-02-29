@@ -12,12 +12,14 @@ public class HomeController : MonoBehaviour
     [SerializeField] private HomeView view;
     [SerializeField] private SaveManager saveManager;
     private int currentCoin = 0;
+    private List<int> ownedItemBackgrounds = new();
+    private List<int>     ownedItemObjecs = new();
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.V))
         {
-            currentCoin += 500;
+            currentCoin += 10000;
             saveManager.SetCoin(currentCoin);
             view.ShowCoin(currentCoin);
         }
@@ -25,7 +27,20 @@ public class HomeController : MonoBehaviour
 
     private void Start()
     {
+        //owned list
+        ownedItemBackgrounds = saveManager.GetListBackground();
+        if(ownedItemBackgrounds != null)
+        {
+            foreach (var item in ownedItemBackgrounds)
+            {
+                var i = model.ItemsBG.Find(x => x.id == item);
+                if (i != null)
+                    i.isLock = false;
+            }
+        }    
+        //score
         view.Home.ShowHighScore(saveManager.GetHighScore());
+        //coin
         currentCoin = saveManager.GetCoin();
         view.ShowCoin(currentCoin);
         if(saveManager.GetAddCoin() != 0)
@@ -103,21 +118,22 @@ public class HomeController : MonoBehaviour
         if (typePage == TypeShop.Background)
         {
             if (itemBG.isLock)
-            {;
-                if (itemBG.price < currentCoin)
+            {
+                if (itemBG.price <= currentCoin)
                 {
                     BuyBGItems(itemBG);
                 }
-            }
-            if (itemBG.id != PlayerPrefs.GetInt("background", 0))
+                else
+                {
+                    Debug.Log("Not enough money");
+                } 
+                    
+            } else
             {
-                PlayerPrefs.SetInt("background", itemBG.id);
+                saveManager.SetBackground(itemBG.id);
+                view.Shop.ChangeStateButton(false, "Equiped");
             }
         }
-        
-
-        if (typePage == TypeShop.Object)
-            PlayerPrefs.SetInt("object", itemObj.id);
     }
 
     public void BuyBGItems(ItemBackground itemBG)
@@ -126,7 +142,10 @@ public class HomeController : MonoBehaviour
         currentCoin -= itemBG.price;
         saveManager.SetCoin(currentCoin);
         saveManager.SetBackground(itemBG.id);
-        //Luu list => unlock item trong list
+        view.Shop.UnlockItem(TypeShop.Background, itemBG.id);
+        model.ItemsBG[itemBG.id].isLock = false;
+        ownedItemBackgrounds.Add(itemBG.id);
+        saveManager.SaveListBackground(ownedItemBackgrounds);
         view.Shop.ChangeStateButton(false, "Equiped");
     }    
     #endregion

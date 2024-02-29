@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game
@@ -12,6 +14,8 @@ namespace Game
         private const string CoinKey       = "coin";
         private const string AddCoinKey    = "acn";
         private const string HighScoreKey  = "hsc";
+        private const string ItemsBackgroundKey  = "ibg";
+        private const string ItemsObjectKey  = "ioj";
 
         //Save current Background
         public void SetBackground(int id)
@@ -61,6 +65,47 @@ namespace Game
         public int GetHighScore()
         {
             return PlayerPrefs.GetInt(HighScoreKey, 0);
+        }
+
+        public List<int> GetListBackground(List<int> defaultValue = null)
+        {
+            return GetList<int>(ItemsBackgroundKey, defaultValue);
+        }
+
+        public void SaveListBackground(List<int> lstBG)
+        {
+            SaveList<int>(ItemsBackgroundKey, lstBG);
+        }
+        private void SaveList<T>(string key, List<T> value)
+        {
+            if (value == null)
+            {
+                value = new List<T>();
+            }
+            if (value.Count == 0)
+            {
+                PlayerPrefs.SetString(key, string.Empty);
+                return;
+            }
+            Debug.Log("save list = " + string.Join(" ", value));
+            PlayerPrefs.SetString(key, string.Join(" ", value));
+        }
+        private List<T> GetList<T>(string key, List<T> defaultValue)
+        {
+            if (PlayerPrefs.GetString(key) == string.Empty)
+            {
+                //return new List<T>();
+                return new List<T>(0);
+            }
+            string temp = PlayerPrefs.GetString(key);
+            string[] listTemp = temp.Split(" ");
+            List<T> list = new List<T>();
+
+            foreach (string s in listTemp)
+            {
+                list.Add((T)Convert.ChangeType(s, typeof(T)));
+            }
+            return list;
         }
     }
 }
