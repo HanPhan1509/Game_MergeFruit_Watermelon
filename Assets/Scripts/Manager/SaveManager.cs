@@ -67,6 +67,7 @@ namespace Game
             return PlayerPrefs.GetInt(HighScoreKey, 0);
         }
 
+        //Save owned list BG
         public List<int> GetListBackground(List<int> defaultValue = null)
         {
             return GetList<int>(ItemsBackgroundKey, defaultValue);
@@ -76,6 +77,19 @@ namespace Game
         {
             SaveList<int>(ItemsBackgroundKey, lstBG);
         }
+
+        //Save owned list Object
+        public List<int> GetListObject(List<int> defaultValue = null)
+        {
+            return GetList<int>(ItemsObjectKey, defaultValue);
+        }
+
+        public void SaveListObject(List<int> lstBG)
+        {
+            SaveList<int>(ItemsObjectKey, lstBG);
+        }
+
+        //Save/Get List T => string
         private void SaveList<T>(string key, List<T> value)
         {
             if (value == null)

@@ -72,12 +72,14 @@ namespace Game
                     scrollRect.content = content[0];
                     content[0].gameObject.SetActive(true);
                     content[1].gameObject.SetActive(false);
+                    detailitemsBG[0].OnClick();
                     break;
                 case TypeShop.Object:
                     itemBG = null;
                     scrollRect.content = content[1];
                     content[0].gameObject.SetActive(false);
                     content[1].gameObject.SetActive(true);
+                    detailitemsObj[0].OnClick();
                     break;
             }
         }

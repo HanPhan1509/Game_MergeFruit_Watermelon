@@ -13,7 +13,7 @@ public class HomeController : MonoBehaviour
     [SerializeField] private SaveManager saveManager;
     private int currentCoin = 0;
     private List<int> ownedItemBackgrounds = new();
-    private List<int>     ownedItemObjecs = new();
+    private List<int> ownedItemObjecs = new();
 
     private void Update()
     {
@@ -29,7 +29,7 @@ public class HomeController : MonoBehaviour
     {
         //owned list
         ownedItemBackgrounds = saveManager.GetListBackground();
-        if(ownedItemBackgrounds != null)
+        if (ownedItemBackgrounds != null)
         {
             foreach (var item in ownedItemBackgrounds)
             {
@@ -37,13 +37,23 @@ public class HomeController : MonoBehaviour
                 if (i != null)
                     i.isLock = false;
             }
-        }    
+        }
+        ownedItemObjecs = saveManager.GetListObject();
+        if (ownedItemObjecs != null)
+        {
+            foreach (var item in ownedItemObjecs)
+            {
+                var i = model.ItemsObj.Find(x => x.id == item);
+                if (i != null)
+                    i.isLock = false;
+            }
+        }
         //score
         view.Home.ShowHighScore(saveManager.GetHighScore());
         //coin
         currentCoin = saveManager.GetCoin();
         view.ShowCoin(currentCoin);
-        if(saveManager.GetAddCoin() != 0)
+        if (saveManager.GetAddCoin() != 0)
         {
             int addCoin = saveManager.GetAddCoin();
             view.ChangeCoin(addCoin);
@@ -60,32 +70,32 @@ public class HomeController : MonoBehaviour
         DataManager myObj = GameObject.Find("Manager").GetComponent<DataManager>();
         myObj.ibackground = model.ItemsBG[saveManager.GetBackground()];
         myObj.lstObj = model.ItemsObj[saveManager.GetObject()].allObjects;
-    }    
+    }
 
     #region HOME
     public void ButtonNewGame()
     {
         PassData();
         SceneManager.LoadScene("Game");
-    }   
-    
+    }
+
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
         view.Shop.OpenShop(model.ItemsBG, model.ItemsObj, ButtonItemsBG);
-    }   
+    }
 
 
     public void ButtonSettings()
     {
 
-    }   
-    
+    }
+
     public void ButtonGift()
     {
 
-    }   
-    
+    }
+
     public void ButtonLeaderboard()
     {
 
@@ -105,9 +115,24 @@ public class HomeController : MonoBehaviour
             else
                 textButton = "Equiped";
         }
-
         view.Shop.ChangeStateButton(item.isLock, textButton);
-    }    
+    }
+
+    public void ButtonItemsObject(ItemObject item)
+    {
+        string textButton = null;
+        if (item.isLock)
+            textButton = item.price.ToString();
+        else
+        {
+            if (saveManager.GetObject() != item.id)
+                textButton = "Get";
+            else
+                textButton = "Equiped";
+        }
+        view.Shop.ChangeStateButton(item.isLock, textButton);
+    }
+
     public void ButtonX()
     {
         view.ShowScreen(UIPopups.Home);
@@ -120,17 +145,29 @@ public class HomeController : MonoBehaviour
             if (itemBG.isLock)
             {
                 if (itemBG.price <= currentCoin)
-                {
                     BuyBGItems(itemBG);
-                }
                 else
-                {
                     Debug.Log("Not enough money");
-                } 
-                    
-            } else
+
+            }
+            else
             {
                 saveManager.SetBackground(itemBG.id);
+                view.Shop.ChangeStateButton(false, "Equiped");
+            }
+        }
+        else
+        {
+            if (itemObj.isLock)
+            {
+                if (itemObj.price <= currentCoin)
+                    BuyObjectItems(itemObj);
+                else
+                    Debug.Log("Not enough money");
+            }
+            else
+            {
+                saveManager.SetObject(itemObj.id);
                 view.Shop.ChangeStateButton(false, "Equiped");
             }
         }
@@ -147,6 +184,19 @@ public class HomeController : MonoBehaviour
         ownedItemBackgrounds.Add(itemBG.id);
         saveManager.SaveListBackground(ownedItemBackgrounds);
         view.Shop.ChangeStateButton(false, "Equiped");
-    }    
+    }
+
+    public void BuyObjectItems(ItemObject item)
+    {
+        view.ChangeCoin(-item.price);
+        currentCoin -= item.price;
+        saveManager.SetCoin(currentCoin);
+        saveManager.SetObject(item.id);
+        view.Shop.UnlockItem(TypeShop.Object, item.id);
+        model.ItemsObj[item.id].isLock = false;
+        ownedItemObjecs.Add(item.id);
+        saveManager.SaveListObject(ownedItemBackgrounds);
+        view.Shop.ChangeStateButton(false, "Equiped");
+    }
     #endregion
 }
