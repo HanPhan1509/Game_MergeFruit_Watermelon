@@ -82,23 +82,7 @@ public class HomeController : MonoBehaviour
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.Shop.OpenShop(model.ItemsBG, model.ItemsObj, ButtonItemsBG);
-    }
-
-
-    public void ButtonSettings()
-    {
-
-    }
-
-    public void ButtonGift()
-    {
-
-    }
-
-    public void ButtonLeaderboard()
-    {
-
+        view.Shop.OpenShop(model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
     }
     #endregion
 

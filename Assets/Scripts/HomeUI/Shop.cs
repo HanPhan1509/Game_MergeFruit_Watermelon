@@ -26,6 +26,7 @@ namespace Game
         [SerializeField] private UnityEvent OnButtonX;
         [SerializeField] private UnityEvent<TypeShop, ItemBackground, ItemObject> OnButtonGet;
         private Action<ItemBackground> OnClickedBGitems;
+        private Action<ItemObject> OnClickedObjitems;
 
         private List<ItemBackground> itemsBG;
         private List<ItemObject> itemsObj;
@@ -52,11 +53,12 @@ namespace Game
             txtButton.text = textButton;
         }
 
-        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedBGitems)
+        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedBGitems, Action<ItemObject> OnClickedObjitems)
         {
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
             this.OnClickedBGitems = OnClickedBGitems;
+            this.OnClickedObjitems = OnClickedObjitems;
             LoadItemsBG();
             LoadItemsObject();
             SwitchToggle(0);
@@ -133,19 +135,7 @@ namespace Game
             ClearHighlight();
             previewItem.sprite = item.preview;
             this.itemObj = item;
-            if (item.isLock)
-            {
-                frameButton.sprite = buttons[1];
-                txtButton.text = item.price.ToString();
-            }
-            else
-            {
-                frameButton.sprite = buttons[0];
-                if (PlayerPrefs.GetInt("background", 0) != item.id)
-                    txtButton.text = "Get";
-                else
-                    txtButton.text = "Equiped";
-            }
+            OnClickedObjitems?.Invoke(item);
         }
 
         private void ClearHighlight()
