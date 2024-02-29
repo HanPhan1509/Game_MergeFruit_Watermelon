@@ -24,6 +24,7 @@ namespace Game
         private LevelFruit nextFruit = LevelFruit.Zero;
         private ItemBackground itemBG;
         private bool isGameOver = false;
+        private SaveManager saveManager;
 
         private void Awake()
         {
@@ -99,9 +100,9 @@ namespace Game
         private void Gameover()
         {
             isGameOver = true;
-            PlayerPrefs.SetInt("addcoin", totalScore);
-            if (PlayerPrefs.GetInt("highscore", 0) < totalScore)
-                PlayerPrefs.SetInt("highscore", totalScore);
+            saveManager.SetAddCoin(totalScore);
+            if (saveManager.GetHighScore() < totalScore)
+                saveManager.SetHighScore(totalScore);
             view.ShowScreen(UIPopups.Gameover, totalScore);
         }
 
@@ -111,7 +112,9 @@ namespace Game
 
         private void GetData()
         {
-            DataManager myData = GameObject.Find("Manager").GetComponent<DataManager>();
+            GameObject manager = GameObject.Find("Manager");
+            DataManager myData = manager.GetComponent<DataManager>();
+            this.saveManager = manager.GetComponent<SaveManager>();
             if (myData != null)
             {
                 this.itemBG = myData.ibackground;
