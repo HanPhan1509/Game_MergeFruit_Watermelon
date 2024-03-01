@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Progress;
 
 public class HomeController : MonoBehaviour
 {
     [SerializeField] private HomeModel model;
     [SerializeField] private HomeView view;
     [SerializeField] private SaveManager saveManager;
+    [SerializeField] private Transform canvasTransform;
     private int currentCoin = 0;
     private List<int> ownedItemBackgrounds = new();
     private List<int> ownedItemObjecs = new();
@@ -82,7 +82,7 @@ public class HomeController : MonoBehaviour
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.Shop.OpenShop(model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
+        view.Shop.OpenShop(canvasTransform.localScale.x, model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
     }
     #endregion
 

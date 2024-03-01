@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 namespace Game
 {
@@ -35,6 +34,7 @@ namespace Game
         private TypeShop typePage;
         private ItemBackground itemBG;
         private ItemObject itemObj;
+        private float canvasScale;
 
         public void ButtonX() { OnButtonX?.Invoke(); }
 
@@ -53,8 +53,9 @@ namespace Game
             txtButton.text = textButton;
         }
 
-        public void OpenShop(List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedBGitems, Action<ItemObject> OnClickedObjitems)
+        public void OpenShop(float canvasScale,List<ItemBackground> itemsBG, List<ItemObject> itemsObj, Action<ItemBackground> OnClickedBGitems, Action<ItemObject> OnClickedObjitems)
         {
+            this.canvasScale = canvasScale;
             this.itemsBG = itemsBG;
             this.itemsObj = itemsObj;
             this.OnClickedBGitems = OnClickedBGitems;
@@ -93,6 +94,7 @@ namespace Game
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
                 detailitemsBG.Add(item);
+                if (canvasScale != 1) item.GetComponent<RectTransform>().localScale *= canvasScale;
                 item.transform.SetParent(content[0]);
                 item.ChangeDetailItemBG(TypeShop.Background, itemsBG[i], OnClickItemBG);
             }
@@ -105,6 +107,7 @@ namespace Game
             {
                 DetailItem item = SimplePool.Spawn(prefItems, Vector2.zero, Quaternion.identity).GetComponent<DetailItem>();
                 detailitemsObj.Add(item);
+                if (canvasScale != 1) item.GetComponent<RectTransform>().localScale *= canvasScale;
                 item.transform.SetParent(content[1]);
                 item.ChangeDetailItemObj(TypeShop.Object, itemsObj[i], OnClickItemObj);
             }

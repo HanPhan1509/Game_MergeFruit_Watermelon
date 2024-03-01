@@ -1,9 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
-using static UnityEditor.Progress;
 
 namespace Game
 {
@@ -52,14 +50,29 @@ namespace Game
         {
             if (!isGameOver)
             {
-                var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
-                if (Input.GetMouseButtonUp(0))
+                //var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
+                //if (Input.GetMouseButtonUp(0))
+                //{
+                //    fruit.transform.SetParent(poolObject);
+                //    fruit.OnClick();
+                //    StartCoroutine(SpawnFruit(nextFruit));
+                //    //Invoke(nameof(SpawnFruit), model.TimeSpawn);
+                //}
+
+                int touchCount = Input.touchCount;
+
+                for (int i = 0; i < touchCount; i++)
                 {
-                    fruit.transform.SetParent(poolObject);
-                    fruit.OnClick();
-                    StartCoroutine(SpawnFruit(nextFruit));
-                    //Invoke(nameof(SpawnFruit), model.TimeSpawn);
+                    Touch touch = Input.GetTouch(i);
+                    if (touch.phase == TouchPhase.Ended)
+                    {
+                        Debug.Log("Chạm kết thúc tại vị trí: " + touch.position);
+                        spawnObject.position = touch.position;
+                        fruit.transform.SetParent(poolObject);
+                        fruit.OnClick();
+                        StartCoroutine(SpawnFruit(nextFruit));
+                    }
                 }
             }
         }
