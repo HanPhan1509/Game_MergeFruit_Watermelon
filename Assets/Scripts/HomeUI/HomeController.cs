@@ -179,7 +179,7 @@ public class HomeController : MonoBehaviour
         view.Shop.UnlockItem(TypeShop.Object, item.id);
         model.ItemsObj[item.id].isLock = false;
         ownedItemObjecs.Add(item.id);
-        saveManager.SaveListObject(ownedItemBackgrounds);
+        saveManager.SaveListObject(ownedItemObjecs);
         view.Shop.ChangeStateButton(false, "Equiped");
     }
     #endregion
