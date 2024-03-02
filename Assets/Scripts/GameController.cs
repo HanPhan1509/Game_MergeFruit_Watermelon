@@ -13,6 +13,7 @@ namespace Game
         [SerializeField] private Transform poolObject;
         [SerializeField] private GameObject prefabFruit;
         [SerializeField] private GameOver lineGameOver;
+        [SerializeField] private Transform[] wall = new Transform[2];
 
         [Header("UI")]
         [SerializeField] private SpriteRenderer[] srBackground = new SpriteRenderer[3];
@@ -23,6 +24,7 @@ namespace Game
         private ItemBackground itemBG;
         private bool isGameOver = false;
         private SaveManager saveManager;
+        Camera mainCamera;
 
         private void Awake()
         {
@@ -30,7 +32,17 @@ namespace Game
             lineGameOver.Initialized(Gameover);
             GetData();
             ChangeGameBackground();
+            SetWallPosition();
         }
+
+        private void SetWallPosition()
+        {
+            mainCamera = Camera.main;
+            float cameraHeight = 2f * mainCamera.orthographicSize;
+            float cameraWidth = cameraHeight * mainCamera.aspect;
+            wall[0].position = new Vector2((-cameraWidth / 2) - (wall[0].localScale.x/2), 0);
+            wall[1].position = new Vector2((cameraWidth / 2) + (wall[0].localScale.x/2), 0);
+        }    
 
         void Start()
         {
