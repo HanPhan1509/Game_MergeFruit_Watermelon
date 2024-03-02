@@ -59,7 +59,8 @@ public class HomeController : MonoBehaviour
         {
             int addCoin = saveManager.GetAddCoin();
             view.ChangeCoin(addCoin);
-            saveManager.SetCoin(currentCoin + addCoin);
+            currentCoin += addCoin;
+            saveManager.SetCoin(currentCoin);
             saveManager.SetAddCoin(0);
         }
         view.ShowScreen(UIPopups.Home);

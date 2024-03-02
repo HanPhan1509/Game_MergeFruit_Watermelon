@@ -24,7 +24,7 @@ namespace Game
             if (collision.gameObject.name.Contains("Object"))
             {
                 timer += Time.deltaTime;
-                if(timer >= 3.0f) endGame?.Invoke();
+                if(timer >= 1.0f) endGame?.Invoke();
             }
         }
     }
