@@ -61,17 +61,24 @@ namespace Game
                 //}
 
                 int touchCount = Input.touchCount;
-
-                for (int i = 0; i < touchCount; i++)
+                Vector2 touchPosition = Vector2.zero;
+                if (touchCount > 0)
                 {
-                    Touch touch = Input.GetTouch(i);
-                    if (touch.phase == TouchPhase.Ended)
+                    for (int i = 0; i < touchCount; i++)
                     {
-                        Debug.Log("Chạm kết thúc tại vị trí: " + touch.position);
-                        spawnObject.position = touch.position;
-                        fruit.transform.SetParent(poolObject);
-                        fruit.OnClick();
-                        StartCoroutine(SpawnFruit(nextFruit));
+                        Touch touch = Input.GetTouch(i);
+
+                        if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+                        {
+                            touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+                            spawnObject.position = new Vector2(touchPosition.x, spawnObject.position.y);
+                        }
+                        if (touch.phase == TouchPhase.Ended)
+                        {
+                            fruit.transform.SetParent(poolObject);
+                            fruit.OnClick();
+                            StartCoroutine(SpawnFruit(nextFruit));
+                        }
                     }
                 }
             }
