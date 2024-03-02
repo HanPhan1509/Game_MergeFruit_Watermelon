@@ -48,6 +48,8 @@ public class HomeController : MonoBehaviour
                     i.isLock = false;
             }
         }
+        //Shop
+        view.Shop.OpenShop(canvasTransform.localScale.x, model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
         //score
         view.Home.ShowHighScore(saveManager.GetHighScore());
         //coin
@@ -82,7 +84,7 @@ public class HomeController : MonoBehaviour
     public void ButtonShop()
     {
         view.ShowScreen(UIPopups.Shop);
-        view.Shop.OpenShop(canvasTransform.localScale.x, model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
+        //view.Shop.OpenShop(canvasTransform.localScale.x, model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
     }
     #endregion
 
