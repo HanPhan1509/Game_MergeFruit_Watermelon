@@ -24,6 +24,7 @@ namespace Game
         private ItemBackground itemBG;
         private bool isGameOver = false;
         private SaveManager saveManager;
+        private SoundManager soundManager;
         Camera mainCamera;
 
         private void Awake()
@@ -66,6 +67,7 @@ namespace Game
                 spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
                 if (Input.GetMouseButtonUp(0))
                 {
+                    soundManager.PlaySound(SoundType.drop);
                     fruit.transform.SetParent(poolObject);
                     fruit.OnClick();
                     StartCoroutine(SpawnFruit(nextFruit));
@@ -86,6 +88,7 @@ namespace Game
                         }
                         if (touch.phase == TouchPhase.Ended)
                         {
+                            soundManager.PlaySound(SoundType.drop);
                             fruit.transform.SetParent(poolObject);
                             fruit.OnClick();
                             StartCoroutine(SpawnFruit(nextFruit));
@@ -118,6 +121,7 @@ namespace Game
         {
             if (!f1.IsColide && !f2.IsColide)
             {
+                soundManager.PlaySound(SoundType.merge);
                 totalScore += ((level + 1) * (level + 2)) / 2;
                 view.GameUI.AddScore(totalScore);
                 Vector2 pos = (f1.transform.position + f2.transform.position) / 2;
@@ -145,13 +149,15 @@ namespace Game
         {
             GameObject manager = GameObject.Find("Manager");
             DataManager myData = manager.GetComponent<DataManager>();
-            this.saveManager = manager.GetComponent<SaveManager>();
+            this.saveManager   = manager.GetComponent<SaveManager>();
+            this.soundManager  = manager.GetComponent<SoundManager>();
             if (myData != null)
             {
                 this.itemBG = myData.ibackground;
                 model.LstObjects = myData.lstObj;
                 isGameOver = false;
             }
+            soundManager.PlaySound(SoundType.soundBG);
         }
 
         private void ChangeGameBackground()
@@ -163,6 +169,7 @@ namespace Game
 
         public void ButtonLoadScene(string nameScene)
         {
+            soundManager.PlaySound(SoundType.click);
             SceneManager.LoadScene(nameScene);
         }
         #endregion

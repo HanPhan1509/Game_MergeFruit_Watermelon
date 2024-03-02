@@ -10,6 +10,7 @@ public class HomeController : MonoBehaviour
     [SerializeField] private HomeModel model;
     [SerializeField] private HomeView view;
     [SerializeField] private SaveManager saveManager;
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private Transform canvasTransform;
     private int currentCoin = 0;
     private List<int> ownedItemBackgrounds = new();
@@ -64,6 +65,7 @@ public class HomeController : MonoBehaviour
             saveManager.SetAddCoin(0);
         }
         view.ShowScreen(UIPopups.Home);
+        soundManager.PlaySound(SoundType.soundBG);
     }
 
     private void PassData()
@@ -78,12 +80,14 @@ public class HomeController : MonoBehaviour
     #region HOME
     public void ButtonNewGame()
     {
+        soundManager.PlaySound(SoundType.click);
         PassData();
         SceneManager.LoadScene("Game");
     }
 
     public void ButtonShop()
     {
+        soundManager.PlaySound(SoundType.click);
         view.ShowScreen(UIPopups.Shop);
         //view.Shop.OpenShop(canvasTransform.localScale.x, model.ItemsBG, model.ItemsObj, ButtonItemsBG, ButtonItemsObject);
     }
@@ -92,6 +96,7 @@ public class HomeController : MonoBehaviour
     #region SHOP
     public void ButtonItemsBG(ItemBackground item)
     {
+        soundManager.PlaySound(SoundType.click);
         string textButton = null;
         if (item.isLock)
             textButton = item.price.ToString();
@@ -107,6 +112,7 @@ public class HomeController : MonoBehaviour
 
     public void ButtonItemsObject(ItemObject item)
     {
+        soundManager.PlaySound(SoundType.click);
         string textButton = null;
         if (item.isLock)
             textButton = item.price.ToString();
@@ -122,11 +128,13 @@ public class HomeController : MonoBehaviour
 
     public void ButtonX()
     {
+        soundManager.PlaySound(SoundType.click);
         view.ShowScreen(UIPopups.Home);
     }
 
     public void ButtonGet(TypeShop typePage, ItemBackground itemBG, ItemObject itemObj)
     {
+        soundManager.PlaySound(SoundType.click);
         if (typePage == TypeShop.Background)
         {
             if (itemBG.isLock)
