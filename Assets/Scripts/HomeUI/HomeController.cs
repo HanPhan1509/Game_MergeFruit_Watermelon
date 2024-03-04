@@ -65,7 +65,7 @@ public class HomeController : MonoBehaviour
             saveManager.SetAddCoin(0);
         }
         view.ShowScreen(UIPopups.Home);
-        soundManager.PlaySound(SoundType.soundBG);
+        soundManager.PlayMusic();
     }
 
     private void PassData()

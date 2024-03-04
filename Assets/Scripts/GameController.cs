@@ -63,15 +63,15 @@ namespace Game
         {
             if (!isGameOver)
             {
-                var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
-                if (Input.GetMouseButtonUp(0))
-                {
-                    soundManager.PlaySound(SoundType.drop);
-                    fruit.transform.SetParent(poolObject);
-                    fruit.OnClick();
-                    StartCoroutine(SpawnFruit(nextFruit));
-                }
+                //var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
+                //if (Input.GetMouseButtonUp(0))
+                //{
+                //    soundManager.PlaySound(SoundType.drop);
+                //    fruit.transform.SetParent(poolObject);
+                //    fruit.OnClick();
+                //    StartCoroutine(SpawnFruit(nextFruit));
+                //}
 
                 int touchCount = Input.touchCount;
                 Vector2 touchPosition = Vector2.zero;
@@ -157,7 +157,7 @@ namespace Game
                 model.LstObjects = myData.lstObj;
                 isGameOver = false;
             }
-            soundManager.PlaySound(SoundType.soundBG);
+            soundManager.PlayMusic();
         }
 
         private void ChangeGameBackground()

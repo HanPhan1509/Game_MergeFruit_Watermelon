@@ -6,7 +6,6 @@ namespace Game
 {
     public enum SoundType
     {
-        soundBG,
         drop,
         click,
         merge,
@@ -14,11 +13,18 @@ namespace Game
     public class SoundManager : MonoBehaviour
     {
         [SerializeField] AudioSource soundSource;
+        [SerializeField] AudioSource soundMusic;
         public List<AudioClip> listSound;
+
         public void PlaySound(SoundType type)
         {
             soundSource.clip = listSound[(int)type];
             soundSource.Play();
         }
+
+        public void PlayMusic()
+        {
+            soundMusic.Play();
+        }    
     }
 }
