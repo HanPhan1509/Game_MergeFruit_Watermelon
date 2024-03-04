@@ -18,14 +18,15 @@ namespace Game
         [Header("UI")]
         [SerializeField] private SpriteRenderer[] srBackground = new SpriteRenderer[3];
 
-        private int totalScore = 0;
-        private PropertiesFruits fruit;
+        Camera mainCamera;
         private LevelFruit nextFruit = LevelFruit.Zero;
-        private ItemBackground itemBG;
-        private bool isGameOver = false;
         private SaveManager saveManager;
         private SoundManager soundManager;
-        Camera mainCamera;
+        private PropertiesFruits fruit;
+        private ItemBackground itemBG;
+        private int totalScore = 0;
+        private bool isGameOver = false;
+        private bool isClick = false;
 
         private void Awake()
         {
@@ -61,7 +62,7 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
-            if (!isGameOver)
+            if (!isGameOver && isClick)
             {
                 //var mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 //spawnObject.position = new Vector2(mouseWorldPos.x, spawnObject.position.y);
@@ -91,6 +92,7 @@ namespace Game
                             soundManager.PlaySound(SoundType.drop);
                             fruit.transform.SetParent(poolObject);
                             fruit.OnClick();
+                            isClick = false;
                             StartCoroutine(SpawnFruit(nextFruit));
                         }
                     }
@@ -101,6 +103,7 @@ namespace Game
         private IEnumerator SpawnFruit(LevelFruit currentFruit)
         {
             yield return new WaitForSeconds(model.TimeSpawn);
+            isClick = true;
             PropertiesFruits newFruit = SimplePool.Spawn(prefabFruit, spawnObject.position, Quaternion.identity).GetComponent<PropertiesFruits>();
             newFruit.transform.SetParent(spawnObject);
             newFruit.Initialized(model.LstObjects[(int)currentFruit], (int)currentFruit, MergeFruit, Gameover);
